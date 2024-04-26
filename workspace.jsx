@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "../components/datePicker.css";
 
 import en from "antd/es/date-picker/locale/en_US";
@@ -29,45 +29,6 @@ const disabledDate = (current) => {
   // Can not select days before today and today
   return current && current < dayjs().endOf("day");
 };
-const disabledDateTime = () => ({
-  disabledHours: () => range(0, 24).splice(4, 20),
-  disabledMinutes: () => range(30, 60),
-  disabledSeconds: () => [55, 56],
-});
-const disabledRangeTime = (_, type) => {
-  if (type === "start") {
-    return {
-      disabledHours: () => range(0, 60).splice(4, 20),
-      disabledMinutes: () => range(30, 60),
-      disabledSeconds: () => [55, 56],
-    };
-  }
-  return {
-    disabledHours: () => range(0, 60).splice(20, 4),
-    disabledMinutes: () => range(0, 31),
-    disabledSeconds: () => [55, 56],
-  };
-};
-// Component level locale
-const buddhistLocale = {
-  ...en,
-  lang: {
-    ...en.lang,
-    fieldDateFormat: "BBBB-MM-DD",
-    fieldDateTimeFormat: "BBBB-MM-DD HH:mm:ss",
-    yearFormat: "BBBB",
-    cellYearFormat: "BBBB",
-  },
-};
-
-// ConfigProvider level locale
-const globalBuddhistLocale = {
-  ...enUS,
-  DatePicker: {
-    ...enUS.DatePicker,
-    lang: buddhistLocale.lang,
-  },
-};
 
 const defaultValue = dayjs("2024-01-01");
 
@@ -77,18 +38,7 @@ const PickerWithType = ({ onChange }) => {
 };
 
 function DatePickerAntd() {
-  // const [openDate, setOpenDate] = useState(false);
-  // const [date, setDate] = useState({
-  //   startDate: new Date(),
-  //   endDate: new Date(),
-  //   key: "selection",
-  // });
-
   const [dates, setDates] = useState([]);
-
-  const onChange = (_, dateStr) => {
-    console.log("onChange:", dateStr);
-  };
 
   useEffect(() => {
     console.log("Date: ", dates);
@@ -98,12 +48,47 @@ function DatePickerAntd() {
     console.log("onOk: ", value);
   };
 
+  const disabledDateTime = (current) => {
+    console.log("Current");
+    const nowPlus30Minutes = dayjs().add(30, "minutes");
+    const selectedDate = current ? dayjs(current) : dayjs();
+
+    if (dayjs().isSame(selectedDate, "day")) {
+      // If selected date is today
+      if (nowPlus30Minutes.isAfter(dayjs())) {
+        // If current time plus 30 minutes is after the current time
+        return {
+          disabledHours: () => range(0, nowPlus30Minutes.hour()),
+          disabledMinutes: () => {
+            if (dayjs().hour() === nowPlus30Minutes.hour()) {
+              return range(0, 60).splice(0, nowPlus30Minutes.minute());
+            }
+            return [];
+          },
+          disabledSeconds: () => [55, 56],
+        };
+      } else {
+        // If current time plus 30 minutes is not after the current time
+        return {
+          disabledHours: () => range(0, 24),
+          disabledMinutes: () => [],
+          disabledSeconds: () => [55, 56],
+        };
+      }
+    } else {
+      // If selected date is not today, allow any time
+      return null;
+    }
+  };
+
   return (
     <div className="container gap-5">
       <Space direction="vertical" size={12}>
+        {/* Version1 */}
         <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
           <h1 className="text-2xl font-bold">Version 1</h1>
           <RangePicker
+            // value="test"
             format="DD-MM-YYYY HH:mm"
             disabledDate={disabledDate}
             disabledTime={disabledDateTime}
@@ -112,12 +97,25 @@ function DatePickerAntd() {
               setDates(values);
             }}
           />
-          <PickerWithType
-            type={"time"}
-            onChange={(value) => console.log(value)}
-          />
+          <div className="flex gap-3">
+            <div className="w-full flex gap-3">
+              <h1 className="whitespace-nowrap">เวลารับรถ</h1>
+              <PickerWithType
+                type={"time"}
+                disabledTime={disabledDateTime}
+                onChange={(value) => console.log(value)}
+              />
+            </div>
+            <div className="w-full  flex gap-3">
+              <h1 className="whitespace-nowrap">เวลาคืนรถ</h1>
+              <PickerWithType
+                type={"time"}
+                onChange={(value) => console.log(value)}
+              />
+            </div>
+          </div>
         </div>
-
+        {/* Version2 */}
         <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
           <h1 className="text-2xl font-bold">Version 2</h1>
 
@@ -126,7 +124,10 @@ function DatePickerAntd() {
               showTime={{
                 format: "HH:mm",
               }}
-              format="DD-MM-DD HH:mm"
+              format="DD-MM-DD  HH:mm"
+              disabledDate={disabledDate}
+              disabledTime={disabledDateTime}
+              renderExtraFooter={() => "extra footer"}
               onChange={(value, dateString) => {
                 console.log("Selected Time: ", value);
                 console.log("Formatted Selected Time: ", dateString);
