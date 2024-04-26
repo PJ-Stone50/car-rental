@@ -104,6 +104,7 @@ function DatePickerAntd() {
         <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
           <h1 className="text-2xl font-bold">Version 1</h1>
           <RangePicker
+            // value="test"
             format="DD-MM-YYYY HH:mm"
             disabledDate={disabledDate}
             disabledTime={disabledDateTime}
@@ -112,10 +113,22 @@ function DatePickerAntd() {
               setDates(values);
             }}
           />
-          <PickerWithType
-            type={"time"}
-            onChange={(value) => console.log(value)}
-          />
+          <div className="flex gap-3">
+            <div className="w-full flex gap-3">
+              <h1 className="whitespace-nowrap">เวลารับรถ</h1>
+              <PickerWithType
+                type={"time"}
+                onChange={(value) => console.log(value)}
+              />
+            </div>
+            <div className="w-full  flex gap-3">
+              <h1 className="whitespace-nowrap">เวลาคืนรถ</h1>
+              <PickerWithType
+                type={"time"}
+                onChange={(value) => console.log(value)}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
@@ -127,6 +140,9 @@ function DatePickerAntd() {
                 format: "HH:mm",
               }}
               format="DD-MM-DD HH:mm"
+              disabledDate={disabledDate}
+              disabledTime={disabledDateTime}
+              renderExtraFooter={() => "extra footer"}
               onChange={(value, dateString) => {
                 console.log("Selected Time: ", value);
                 console.log("Formatted Selected Time: ", dateString);
