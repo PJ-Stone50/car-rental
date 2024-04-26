@@ -9,6 +9,10 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 dayjs.extend(buddhistEra);
 
+// const dayjs = require("dayjs"); // Make sure to import or include dayjs library
+const range = (start, end) =>
+  Array.from({ length: end - start }, (_, i) => start + i);
+
 //Antd
 import { Space, TimePicker, DatePicker, Typography, Select } from "antd";
 const { Title } = Typography;
@@ -16,18 +20,9 @@ const { Title } = Typography;
 // import moment from "moment";
 const { RangePicker } = DatePicker;
 
-const range = (start, end) => {
-  const result = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-};
-
-// eslint-disable-next-line arrow-body-style
 const disabledDate = (current) => {
   // Can not select days before today and today
-  return current && current < dayjs().endOf("day");
+  return current && current < dayjs().startOf("day");
 };
 
 const defaultValue = dayjs("2024-01-01");
@@ -49,7 +44,6 @@ function DatePickerAntd() {
   };
 
   const disabledDateTime = (current) => {
-    console.log("Current");
     const nowPlus30Minutes = dayjs().add(30, "minutes");
     const selectedDate = current ? dayjs(current) : dayjs();
 
@@ -59,13 +53,6 @@ function DatePickerAntd() {
         // If current time plus 30 minutes is after the current time
         return {
           disabledHours: () => range(0, nowPlus30Minutes.hour()),
-          disabledMinutes: () => {
-            if (dayjs().hour() === nowPlus30Minutes.hour()) {
-              return range(0, 60).splice(0, nowPlus30Minutes.minute());
-            }
-            return [];
-          },
-          disabledSeconds: () => [55, 56],
         };
       } else {
         // If current time plus 30 minutes is not after the current time
@@ -76,14 +63,40 @@ function DatePickerAntd() {
         };
       }
     } else {
-      // If selected date is not today, allow any time
-      return null;
+      // If not today
+      const now = dayjs();
+      console.log("SelectedDate", selectedDate.$D);
+      console.log("Now", now.$D);
+      if (selectedDate.$D === now.$D) {
+        console.log("111");
+        return {
+          disabledHours: () => range(0, nowPlus30Minutes.hour()),
+          disabledMinutes: () => [],
+          disabledSeconds: () => [55, 56],
+        };
+      } else {
+        console.log("222");
+        return {
+          disabledHours: () => range(0, 0),
+          disabledMinutes: () => [],
+          disabledSeconds: () => [55, 56],
+        };
+      }
     }
   };
+
+  // const disabledDateTime = () => (
+  //   // const nowPlus30Minutes = dayjs().add(30, "minutes");
+  //   {
+  //   disabledHours: () => range(0, 24).splice(4, 20),
+  //   disabledMinutes: () => range(30, 60),
+  //   disabledSeconds: () => [55, 56],
+  // });
 
   return (
     <div className="container gap-5">
       <Space direction="vertical" size={12}>
+        {/* Version1 */}
         <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
           <h1 className="text-2xl font-bold">Version 1</h1>
           <RangePicker
@@ -109,12 +122,13 @@ function DatePickerAntd() {
               <h1 className="whitespace-nowrap">เวลาคืนรถ</h1>
               <PickerWithType
                 type={"time"}
+                disabledTime={disabledDateTime}
                 onChange={(value) => console.log(value)}
               />
             </div>
           </div>
         </div>
-
+        {/* Version2 */}
         <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
           <h1 className="text-2xl font-bold">Version 2</h1>
 
