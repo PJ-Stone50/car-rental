@@ -1,144 +1,140 @@
-import React, { useEffect, useState, useMemo } from "react";
-import "../components/datePicker.css";
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import HomeBackground from "../../public/images/backgrounds/home-bg1.png";
+import { useMediaQuery } from "react-responsive";
+import DatePickerAntDesign from "../components/DatePickerAntDesign";
 
-import en from "antd/es/date-picker/locale/en_US";
-import enUS from "antd/es/locale/en_US";
-import buddhistEra from "dayjs/plugin/buddhistEra";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-dayjs.extend(customParseFormat);
-dayjs.extend(buddhistEra);
+export default function Home() {
+  const isTablet = useMediaQuery({ query: "(min-width: 780px)" });
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [returnLocation, setReturnLocation] = useState("");
+  const [sameLocation, setSameLocation] = useState(true);
 
-//Antd
-import { Space, TimePicker, DatePicker, Typography, Select } from "antd";
-const { Title } = Typography;
-
-// import moment from "moment";
-const { RangePicker } = DatePicker;
-
-const range = (start, end) => {
-  const result = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-};
-
-// eslint-disable-next-line arrow-body-style
-const disabledDate = (current) => {
-  // Can not select days before today and today
-  return current && current < dayjs().endOf("day");
-};
-
-const defaultValue = dayjs("2024-01-01");
-
-const { Option } = Select;
-const PickerWithType = ({ onChange }) => {
-  return <DatePicker picker={"time"} onChange={onChange} />;
-};
-
-function DatePickerAntd() {
-  const [dates, setDates] = useState([]);
-
-  useEffect(() => {
-    console.log("Date: ", dates);
-  }, [dates]);
-
-  const onOk = (value) => {
-    console.log("onOk: ", value);
+  const handlePickupChange = (event) => {
+    setPickupLocation(event.target.value);
   };
 
-  const disabledDateTime = (current) => {
-    console.log("Current");
-    const nowPlus30Minutes = dayjs().add(30, "minutes");
-    const selectedDate = current ? dayjs(current) : dayjs();
+  const handleReturnChange = (event) => {
+    setReturnLocation(event.target.value);
+  };
 
-    if (dayjs().isSame(selectedDate, "day")) {
-      // If selected date is today
-      if (nowPlus30Minutes.isAfter(dayjs())) {
-        // If current time plus 30 minutes is after the current time
-        return {
-          disabledHours: () => range(0, nowPlus30Minutes.hour()),
-          disabledMinutes: () => {
-            if (dayjs().hour() === nowPlus30Minutes.hour()) {
-              return range(0, 60).splice(0, nowPlus30Minutes.minute());
-            }
-            return [];
-          },
-          disabledSeconds: () => [55, 56],
-        };
-      } else {
-        // If current time plus 30 minutes is not after the current time
-        return {
-          disabledHours: () => range(0, 24),
-          disabledMinutes: () => [],
-          disabledSeconds: () => [55, 56],
-        };
-      }
-    } else {
-      // If selected date is not today, allow any time
-      return null;
+  const toggleSameLocation = () => {
+    setSameLocation(!sameLocation);
+    if (sameLocation) {
+      setReturnLocation(""); // Reset return location when checkbox is checked
     }
   };
 
-  return (
-    <div className="container gap-5">
-      <Space direction="vertical" size={12}>
-        {/* Version1 */}
-        <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
-          <h1 className="text-2xl font-bold">Version 1</h1>
-          <RangePicker
-            // value="test"
-            format="DD-MM-YYYY HH:mm"
-            disabledDate={disabledDate}
-            disabledTime={disabledDateTime}
-            renderExtraFooter={() => "extra footer"}
-            onChange={(values) => {
-              setDates(values);
-            }}
-          />
-          <div className="flex gap-3">
-            <div className="w-full flex gap-3">
-              <h1 className="whitespace-nowrap">เวลารับรถ</h1>
-              <PickerWithType
-                type={"time"}
-                disabledTime={disabledDateTime}
-                onChange={(value) => console.log(value)}
-              />
-            </div>
-            <div className="w-full  flex gap-3">
-              <h1 className="whitespace-nowrap">เวลาคืนรถ</h1>
-              <PickerWithType
-                type={"time"}
-                onChange={(value) => console.log(value)}
-              />
-            </div>
-          </div>
-        </div>
-        {/* Version2 */}
-        <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
-          <h1 className="text-2xl font-bold">Version 2</h1>
+  const pickupPlaces = [
+    { id: "bangkok", name: "Bangkok" },
+    { id: "chiang_mai", name: "Chiang Mai" },
+    { id: "phuket", name: "Phuket" },
+    { id: "krabi", name: "Krabi" },
+    { id: "pattaya", name: "Pattaya" },
+    { id: "hua_hin", name: "Hua Hin" },
+    { id: "koh_samui", name: "Koh Samui" },
+    { id: "udon_thani", name: "Udon Thani" },
+    { id: "khon_kaen", name: "Khon Kaen" },
+    { id: "nakhon_ratchasima", name: "Nakhon Ratchasima" },
+  ];
 
-          <Space direction="vertical" size={12}>
-            <RangePicker
-              showTime={{
-                format: "HH:mm",
-              }}
-              format="DD-MM-DD  HH:mm"
-              disabledDate={disabledDate}
-              disabledTime={disabledDateTime}
-              renderExtraFooter={() => "extra footer"}
-              onChange={(value, dateString) => {
-                console.log("Selected Time: ", value);
-                console.log("Formatted Selected Time: ", dateString);
-              }}
-              onOk={onOk}
+  return (
+    <div className="w-screen h-screen">
+      <Navbar />
+
+      <div className="relative w-full h-full bg-white flex justify-center items-center">
+        <img
+          src={HomeBackground}
+          alt="Home background"
+          className="absolute w-full h-full top-0 object-cover"
+        />
+
+        <div
+          className={
+            isTablet
+              ? "flex gap-3 bg-white rounded-lg pt-5 px-5  w-fit pb-[3rem] h-fit absolute top-[25%] p-4 shadow-lg z-10"
+              : "flex flex-col bg-white rounded-lg gap-3  px-5 w-10/12 md:max-w-md h-fit absolute top-[25%] p-4 shadow-lg z-10"
+          }
+        >
+          <div
+            className={
+              isTablet
+                ? "custom-checkbox  items-center flex justify-center absolute bottom-[12px]  "
+                : "custom-checkbox   "
+            }
+          >
+            <input
+              name="same-location-checkbox"
+              type="checkbox"
+              id="same-location-checkbox"
+              checked={sameLocation}
+              onChange={toggleSameLocation}
+              className="mr-2 "
+              style={{ display: "none" }} // Hide the default checkbox
             />
-          </Space>
+            <label htmlFor="same-location-checkbox " className="">
+              ส่งรถคืนที่เดิม
+            </label>
+          </div>
+
+          <div className="pickup">
+            <h1 className="opacity-70 ml-[5px]">สถานที่รับรถ</h1>
+            <select
+              name="pickup-place"
+              id="pickup-place"
+              value={pickupLocation}
+              onChange={handlePickupChange}
+              className={
+                sameLocation && isTablet
+                  ? "w-[385px] min-w-[180px] p-2 border rounded border-gray-300 focus:border-blue-500 focus:outline-none"
+                  : "w-full min-w-[180px] p-2 border rounded border-gray-300 focus:border-blue-500 focus:outline-none"
+              }
+            >
+              <option value="" className="whitespace-nowrap w-full">
+                เลือกสถานที่เพื่อรับรถ...
+              </option>
+              {pickupPlaces.map((place) => (
+                <option key={place.id} value={place.id}>
+                  {place.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="return">
+            {!sameLocation && (
+              <div>
+                <h1 className="opacity-70 ml-[5px]">สถานที่คืนรถ</h1>
+                <select
+                  name="return-place"
+                  id="return-place"
+                  value={returnLocation}
+                  onChange={handleReturnChange}
+                  className="w-full p-2 border min-w-[182px] rounded border-gray-300 focus:border-blue-500 focus:outline-none"
+                >
+                  <option value="">เลือกสถานที่เพื่อคืนรถ...</option>
+                  {pickupPlaces.map((place) => (
+                    <option key={place.id} value={place.id}>
+                      {place.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+          <div className="container-date   w-full h-full mt-[1.5rem]">
+            <DatePickerAntDesign />
+          </div>
+
+          <button className="rounded-lg bg-amber-500 text-white text-[18px] px-5 py-2 mt-5 w-fit h-fit">
+            ค้นหา
+          </button>
         </div>
-      </Space>
+
+        {/* <DatePickerAntDesign /> */}
+      </div>
+
+      <h1>Home</h1>
     </div>
   );
 }
-
-export default DatePickerAntd;
