@@ -35,21 +35,6 @@ function DatePickerAntDesign() {
     console.log("Date: ", dates);
   }, [dates]);
 
-  useEffect(() => {
-    console.log("Dates:", dates);
-    if (dates.length === 2) {
-      const startDate = dayjs(dates[0], "DD-MM-YYYY HH:mm");
-      const endDate = dayjs(dates[1], "DD-MM-YYYY HH:mm");
-      const days =
-        endDate.isValid() && startDate.isValid()
-          ? endDate.diff(startDate, "day") + 1
-          : 0;
-      setTotalDays(days);
-    } else {
-      setTotalDays(0);
-    }
-  }, [dates]);
-
   const onOk = (value) => {
     console.log("onOk: ", value);
   };
@@ -65,18 +50,14 @@ function DatePickerAntDesign() {
         ? dayjs(dates[1], "DD-MM-YYYY HH:mm").startOf("day")
         : null;
 
-    console.log("Start", startDate);
-    console.log("End", endDate);
+    console.log("Dates", dates);
+    // console.log("End", endDate.$D);
     console.log("Cur", current);
     console.log("Today", today);
     console.log("Cur < Today", current < today);
 
     // Disable dates before today
     if (current && current < today) {
-      return true;
-    }
-
-    if (startDate.$D === endDate.$D) {
       return true;
     }
 
@@ -145,13 +126,13 @@ function DatePickerAntDesign() {
   };
 
   return (
-    <div className="gap-5  w-full">
+    <div className="  w-full ">
       <Space direction="vertical" size={12} className="w-full">
         {/* Version2 */}
-        <div className="relative w-full h-full flex flex-col gap-5">
+        <div className="relative w-full h-full flex flex-col ">
           <Space direction="vertical" size={12} className=" w-full text-center">
             <RangePicker
-              className="p-2 w-full border-gray-400"
+              className="w-full  text-[32px] font-semibold"
               style={{ textAlign: "center", alignItems: "center" }}
               showTime={{
                 format: "HH:mm",
@@ -160,7 +141,7 @@ function DatePickerAntDesign() {
               format="DD-MM-YYYY HH:mm"
               disabledDate={disabledDate}
               disabledTime={disabledDateTime}
-              disabledEndDate={disabledEndDate} // corrected prop name
+              // disabledEndDate={disabledEndDate} // corrected prop name
               renderExtraFooter={() => "extra footer"}
               onChange={(value, dateString) => {
                 console.log("Selected Time: ", value);
