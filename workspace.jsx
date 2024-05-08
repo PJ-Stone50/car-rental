@@ -1,142 +1,192 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
+import Navbar from "../components/navbar/Navbar";
+import HomeBackground from "../../public/images/backgrounds/home-bg.jpeg";
 import { useMediaQuery } from "react-responsive";
-import { Link, useNavigate } from "react-router-dom";
-import Logo from "../../../public/images/icons/logo-talren.png";
+import DatePickerAntDesign from "../components/DatePickerAntDesign";
+import { BsInfoCircle } from "react-icons/bs";
+import AgeSelect from "../components/AgeSelect";
 
-import LanguagePicker from "./LanguagePicker";
+export default function Home() {
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [returnLocation, setReturnLocation] = useState("");
+  const [sameLocation, setSameLocation] = useState(true);
 
-const text = "Are you sure delete this task?";
+  const handlePickupChange = (event) => {
+    setPickupLocation(event.target.value);
+  };
 
-function Navbar() {
-  const [hamburgerMenu, setHamburgerMenu] = useState(false);
-  const [navbarHeight, setNavbarHeight] = useState(0);
-  const [navbarWidth, setNavbarWidth] = useState(0);
-  const isTablet = useMediaQuery({ query: "(min-width: 780px)" });
+  const handleReturnChange = (event) => {
+    setReturnLocation(event.target.value);
+  };
 
-  //   const { cart, setShowCart } = useContext(ProductContext);
-  const navigate = useNavigate();
-
-  const [isFloating, setIsFloating] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.pageYOffset > 10) {
-        setIsFloating(true);
-      } else {
-        setIsFloating(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup function to remove the event listener
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []); // Empty dependency array ensures this effect runs only once
-
-  useEffect(() => {
-    if (!isTablet) {
-      setHamburgerMenu(false);
+  const toggleSameLocation = () => {
+    console.log("SameLocation", sameLocation);
+    console.log("ReturnLocation", returnLocation);
+    setSameLocation(!sameLocation);
+    if (sameLocation) {
+      setReturnLocation(""); // Reset return location when checkbox is checked
     }
-  }, [isTablet]);
+  };
 
-  function handleHamburgerMenu() {
-    setHamburgerMenu(!hamburgerMenu);
-    toggleNavbarWidth();
-  }
-
-  function toggleNavbarWidth() {
-    setNavbarWidth(hamburgerMenu ? 10 : 300);
-    setNavbarHeight(hamburgerMenu ? 0 : 1000);
-  }
+  const pickupPlaces = [
+    { id: "bangkok", name: "Bangkok" },
+    { id: "chiang_mai", name: "Chiang Mai" },
+    { id: "phuket", name: "Phuket" },
+    { id: "krabi", name: "Krabi" },
+    { id: "pattaya", name: "Pattaya" },
+    { id: "hua_hin", name: "Hua Hin" },
+    { id: "koh_samui", name: "Koh Samui" },
+    { id: "udon_thani", name: "Udon Thani" },
+    { id: "khon_kaen", name: "Khon Kaen" },
+    { id: "nakhon_ratchasima", name: "Nakhon Ratchasima" },
+  ];
 
   return (
-    <>
-      <div className="pb-[3.5rem] container-nav">
-        <nav
-          id="navbar"
-          className={`navBar fixed items-center min-h-[60px] pr-[5rem] shadow-lg flex gap-3 justify-between pl-[10rem] transition-[0.5s] ${
-            hamburgerMenu
-              ? "bg-white w-[300px] text-black  border-r-4"
-              : "bg-white text-black border-b-7"
-          } ${isTablet ? "pl-[10rem]" : "flex flex-col  bg-amber-200"} ${
-            isFloating ? "shadow-xl" : "shadow-xl"
-          }`}
-          style={{
-            width: hamburgerMenu ? navbarWidth : "100%",
-            height: `fit-content`,
-            transition: "width 0.5s",
-            zIndex: "100",
-          }}
+    <div className="w-screen h-screen">
+      <Navbar />
+
+      <div
+        className="relative w-full h-full py-[3rem]  flex justify-center "
+        // style={{
+        //   backgroundImage: `url(${HomeBackground})`,
+        // }}
+      >
+        <img
+          src={HomeBackground}
+          alt="Home background"
+          className="  w-full h-1/2 absolute top-0 object-cover"
+        />
+        <div
+          className={
+            isTablet
+              ? "w-fit h-fit flex gap-3 bg-white mx-[1rem] pt-[4rem] rounded-lg pt-5 px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
+              : "w-full h-fit flex flex-col bg-white mx-[3rem] rounded-lg gap-3  px-5     p-4 shadow-lg z-10"
+          }
         >
           <div
             className={
-              !hamburgerMenu
-                ? "flex  gap-2 w-full pl-[2rem] m-auto bg-red-500"
-                : "flex gap-2 w-full ml-[-5rem] mt-[3rem] bg-white text-black"
+              isTablet
+                ? "custom-checkbox  items-center flex justify-center absolute top-[20px]  "
+                : "custom-checkbox   "
             }
           >
-            <Link to="/" className="w-fit h-fit  flex ">
-              <h1
-                className={
-                  hamburgerMenu
-                    ? "hidden"
-                    : "font-semibold absolute top-3 left-[80px] text-[24px]"
-                }
-              >
-                RTalrens
-              </h1>
-            </Link>
-            {(isTablet || hamburgerMenu) && (
-              <ul
-                className={`flex ${
-                  !isTablet && hamburgerMenu
-                    ? "flex-col gap-[3rem] w-full  h-screen  items-center justify-start"
-                    : "flex items-center justify-center  gap-[30px]"
-                }`}
-              >
-                <li className="cursor-pointer opacity-70 hover:opacity-100 ">
-                  <button
-                    onClick={() => navigate(`/productlist/${key}`)}
-                    className="text-[16px]"
-                  >
-                    menu1
-                  </button>
-                </li>
-                <li className="cursor-pointer opacity-70 hover:opacity-100 ">
-                  <button
-                    onClick={() => navigate(`/productlist/${key}`)}
-                    className="text-[16px]"
-                  >
-                    menu2
-                  </button>
-                </li>
-              </ul>
-            )}
+            <input
+              name="same-location-checkbox"
+              type="checkbox"
+              id="same-location-checkbox"
+              checked={sameLocation}
+              onChange={toggleSameLocation}
+              className="mr-2 "
+              style={{ display: "none" }} // Hide the default checkbox
+            />
+            <label htmlFor="same-location-checkbox" className="">
+              ส่งรถคืนที่เดิม
+            </label>
           </div>
 
-          <div className="flex gap-3 items-center">
-            <LanguagePicker />
-            <Link className="cursor-pointer">
-              <h1 className="text-[18px] font-semibold">สมัครสมาชิก</h1>
-            </Link>
-            <Link>
-              <label
-                className="cursor-pointer whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
-                }}
-              >
-                เข้าสู่ระบบ
-              </label>
-            </Link>
+          <div
+            className={
+              isMobile
+                ? "w-full flex gap-3 items-center"
+                : "flex flex-col gap-3"
+            }
+          >
+            <div
+              className={
+                isTablet
+                  ? "w-full h-fit whitespace-nowrap cursor-pointer pr-[3rem] flex flex-col rounded-md bg-[#F3F6F9] py-3 px-2 border-[1.5px] border-[#E0E3E7]"
+                  : "w-full h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+              }
+            >
+              {sameLocation ? (
+                <h1 className="opacity-80 ">สถานที่รับและคืนรถ</h1>
+              ) : (
+                <h1 className="opacity-80">สถานที่รับรถ</h1>
+              )}
+              {pickupLocation ? (
+                <h1>{pickupLocation}</h1>
+              ) : (
+                <h1 className="text-[20px] font-semibold">
+                  {sameLocation ? "สถานที่รับและคืนรถ" : "สถานที่รับรถ"}
+                </h1>
+              )}
+            </div>
+
+            <div className={sameLocation ? "hidden" : "return w-full"}>
+              {!sameLocation && (
+                <div
+                  className={
+                    isTablet
+                      ? "w-full h-fit whitespace-nowrap cursor-pointer pr-[5rem] flex flex-col rounded-md bg-[#F3F6F9] py-3 px-2 border-[1.5px] border-[#E0E3E7]"
+                      : "w-full h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+                  }
+                >
+                  <h1 className="opacity-80 ">สถานที่คืนรถ</h1>
+
+                  {returnLocation ? (
+                    <h1>{returnLocation}</h1>
+                  ) : (
+                    <h1 className="text-[20px] font-semibold">สถานที่คืนรถ</h1>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </nav>
+          <div
+            className={
+              isTablet
+                ? "container-date items-center mt-[.25rem] w-full h-full "
+                : "container-date items-center  w-full h-full"
+            }
+          >
+            <DatePickerAntDesign />
+          </div>
+          <div
+            className={
+              isMobile
+                ? " items-center flex justify-center absolute bottom-[12px] right-5  w-full pl-[2.5rem]"
+                : "flex flex-col gap-3 justify-between items-center py-[.5rem]  w-full "
+            }
+          >
+            <div className="flex gap-2 w-full pr-[1rem] whitespace-nowrap items-center text-[18px] font-medium">
+              <p className="">อายุของผู้ขับขี่</p>
+              <BsInfoCircle /> : <p>อยู่ระหว่าง</p>
+              <AgeSelect />
+            </div>
+            {/* <label
+              className={
+                isMobile
+                  ? "cursor-pointer px-5 py-3 w-full bg-black whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
+                  : "cursor-pointer px-5 py-3 w-full bg-amber-200 whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
+              }
+              // style={{
+              //   background:
+              //     "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
+              // }}
+            >
+              ค้นหา
+            </label> */}
+            <button
+              htmlFor=""
+              className={
+                isTablet
+                  ? "cursor-pointer px-5 py-3 w-1/3 bg-amber-200 whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
+                  : "cursor-pointer px-5 py-3 w-full bg-amber-500  whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
+              }
+              // style={{
+              //   background:
+              //     "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
+              // }}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+
+        {/* <DatePickerAntDesign /> */}
       </div>
-    </>
+    </div>
   );
 }
-
-export default Navbar;

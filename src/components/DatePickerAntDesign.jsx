@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 // import "../components/datePicker.css";
-
+import { useMediaQuery } from "react-responsive";
 import en from "antd/es/date-picker/locale/en_US";
 import enUS from "antd/es/locale/en_US";
 import buddhistEra from "dayjs/plugin/buddhistEra";
@@ -30,6 +30,8 @@ const PickerWithType = ({ onChange }) => {
 function DatePickerAntDesign() {
   const [dates, setDates] = useState([]);
   const [totalDays, setTotalDays] = useState(0); // State to store the total number of days
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   useEffect(() => {
     console.log("Date: ", dates);
@@ -126,14 +128,43 @@ function DatePickerAntDesign() {
   };
 
   return (
-    <div className="  w-full ">
+    <div className="relative  w-full">
       <Space direction="vertical" size={12} className="w-full">
         {/* Version2 */}
-        <div className="relative w-full h-full flex flex-col ">
-          <Space direction="vertical" size={12} className=" w-full text-center">
+        <div className=" w-full h-full flex flex-col ">
+          <Space
+            direction="vertical"
+            size={12}
+            className="relative w-full text-center "
+          >
             <RangePicker
-              className="w-full  text-[32px] font-semibold"
-              style={{ textAlign: "center", alignItems: "center" }}
+              placement={"topLeft"}
+              popupStyle={
+                isMobile
+                  ? {
+                      textAlign: "center",
+                      alignItems: "center",
+                      // background: "red",
+                      // position: "absolute",
+                      // top: "50%",
+                      // left: "10%",
+
+                      // justifyContent: "center",
+                    }
+                  : {
+                      textAlign: "center",
+                      alignItems: "center",
+                      position: "fixed",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }
+              }
+              className={
+                isMobile
+                  ? "w-full  text-center items-center py-5 text-[32px] flex  font-semibold   "
+                  : "w-full  text-center items-center py-5 text-[32px] flex font-semibold   "
+              }
               showTime={{
                 format: "HH:mm",
               }}
