@@ -1,41 +1,174 @@
-import React, { useState } from "react";
-import "../components/datePicker.css";
-import { DateRangePicker } from "react-date-range";
+import { useState, useRef, useEffect } from "react";
+import { DateRangePicker, DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
+import { useMediaQuery } from "react-responsive";
+import { RiH1 } from "react-icons/ri";
 
 function DatePicker() {
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date(),
-    endDate: new Date(),
+    endDate: null,
     key: "selection",
   });
+
+  // Initialize state for selected time
+  const [startTime, setStartTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("00:00");
+
+  // Function to handle change in select input
+  const handleStartChange = (event) => {
+    setStartTime(event.target.value);
+  };
+  // Function to handle change in select input
+  const handleEndChange = (event) => {
+    setEndTime(event.target.value);
+  };
+
+  // Generate options for select input
+  const generateOptions = () => {
+    const options = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const timeString = `${hour.toString().padStart(2, "0")}:${minute
+          .toString()
+          .padStart(2, "0")}`;
+        options.push(
+          <option key={timeString} value={timeString}>
+            {timeString}
+          </option>
+        );
+      }
+    }
+    return options;
+  };
 
   const handleChange = (ranges) => {
     setDate(ranges.selection);
   };
 
-  const handleClick = () => {
-    setOpenDate((prev) => !prev);
-  };
+  const dateRangeRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dateRangeRef.current &&
+        !dateRangeRef.current.contains(event.target)
+      ) {
+        setOpenDate(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+
+    console.log("Status", openDate);
+  }, []);
 
   return (
-    <div className="container">
-      <span onClick={handleClick} className="calender">
-        {`${format(date.startDate, "dd,MMM,yyyy")} to ${format(
-          date.endDate,
-          "dd,MMM,yyyy"
-        )} `}
-      </span>
+    <div
+      className={
+        isTablet
+          ? "containerDateRange gap-5"
+          : "containerDateRange flex flex-col my-8"
+      }
+    >
+      <div className="flex w-full">
+        <span
+          className="calendar pt-[2rem] relative whitespace-nowrap font-bold w-full h-fit cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+          onClick={() => setOpenDate(!openDate)}
+        >
+          {date.startDate ? (
+            date.startDate && format(date.startDate, "MMM, dd, yyyy")
+          ) : (
+            <h1>startDate</h1>
+          )}
+          <label htmlFor="" className="absolute top-3 left-5 font-normal">
+            วันรับรถ
+          </label>
+        </span>
+        {/* TimeSelect */}
+        <div>
+          {/* <label htmlFor="timeSelect">Select Time:</label> */}
+          <select
+            id="timeSelect"
+            value={startTime}
+            onChange={handleStartChange}
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[80px] text-center items-center rounded-md bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+          >
+            {generateOptions()}
+          </select>
+          {/* <p>Selected Time: {selectedTime}</p> */}
+        </div>
+      </div>
+
+      <div className="flex w-full">
+        <span
+          className="calendar  relative whitespace-nowrap font-bold w-full h-fit cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9]  justify-center pt-[2rem] border-[1.5px] border-[#E0E3E7]"
+          onClick={() => setOpenDate(!openDate)}
+        >
+          {date.endDate ? (
+            date.endDate && format(date.endDate, "MMM, dd, yyyy")
+          ) : (
+            <h1>endDate</h1>
+          )}
+          <label htmlFor="" className="absolute top-3 left-5 font-normal">
+            วันคืนรถ
+          </label>
+        </span>
+        {/* TimeSelect */}
+        <div>
+          {/* <label htmlFor="timeSelect">Select Time:</label> */}
+          <select
+            id="timeSelect"
+            value={endTime}
+            onChange={handleEndChange}
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[80px] text-center items-center rounded-md bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+          >
+            {generateOptions()}
+          </select>
+          {/* <p>Selected Time: {selectedTime}</p> */}
+        </div>
+      </div>
       {openDate && (
-        <DateRangePicker
-          className="dateRange"
-          ranges={[date]}
-          minDate={new Date()}
-          onChange={handleChange}
-        />
+        <div ref={dateRangeRef}>
+          {isMobile ? (
+            <DateRange
+              className={
+                isTablet
+                  ? "absolute top-[100%] left-[-200px] bg-white z-10 scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[0px] bg-white z-10 scale-110 transition-[1s]"
+              }
+              onChange={(ranges) => handleChange(ranges)}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              ranges={[date]} // Pass date directly instead of wrapping it in an array
+              direction="horizontal"
+            />
+          ) : (
+            <DateRange
+              className={
+                isMobile
+                  ? "absolute top-[10px] left-[10px] z-10 bg-white"
+                  : "absolute top-[100%]  left-[-50px] z-10 bg-white"
+              }
+              onChange={(ranges) => handleChange(ranges)}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              ranges={[date]} // Pass date directly instead of wrapping it in an array
+              direction="horizontal"
+            />
+          )}
+        </div>
       )}
     </div>
   );

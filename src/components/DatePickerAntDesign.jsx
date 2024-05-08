@@ -162,8 +162,8 @@ function DatePickerAntDesign() {
               }
               className={
                 isMobile
-                  ? "w-full  text-center items-center py-5 text-[32px] flex  font-semibold   "
-                  : "w-full  text-center items-center py-5 text-[32px] flex font-semibold   "
+                  ? "w-full bg-[#F3F6F9] text-center items-center py-5 text-[32px] flex  font-semibold   "
+                  : "w-full bg-[#F3F6F9] text-center items-center py-5 text-[32px] flex font-semibold   "
               }
               showTime={{
                 format: "HH:mm",
@@ -179,7 +179,6 @@ function DatePickerAntDesign() {
                 console.log("Formatted Selected Time: ", dateString);
                 setDates(dateString);
               }}
-              onOk={onOk}
             />
 
             {/* <div className="absolute top-[0px] left-[33%] bg-black text-white w-fit p-2">

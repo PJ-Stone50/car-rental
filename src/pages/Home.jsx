@@ -6,6 +6,10 @@ import DatePickerAntDesign from "../components/DatePickerAntDesign";
 import { BsInfoCircle } from "react-icons/bs";
 import AgeSelect from "../components/AgeSelect";
 import Footer from "../components/footer/Footer";
+import DatePicker from "../components/DatePicker";
+// import { DatePicker } from "antd";
+import Test from "../components/Test";
+import TimeSelect from "../components/TimeSelect";
 
 export default function Home() {
   const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
@@ -45,7 +49,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen ">
       <Navbar />
 
       <div
@@ -72,8 +76,8 @@ export default function Home() {
           <div
             className={
               isTablet
-                ? "w-fit h-fit flex gap-3 bg-white mx-[1rem] pt-[4rem] rounded-lg pt-5 px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
-                : "w-full h-fit flex flex-col bg-white mx-[3rem] rounded-lg gap-3  px-5     p-4 shadow-lg z-10"
+                ? "w-fit h-fit flex gap-3 bg-white mx-[1rem] pt-[4rem] rounded-lg  px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
+                : "w-full h-fit flex flex-col bg-amber-200 mt-[-15rem] mx-[3rem] rounded-lg gap-3  px-5     p-4 shadow-lg z-10"
             }
           >
             <div
@@ -154,7 +158,9 @@ export default function Home() {
                   : "container-date items-center  w-full h-full"
               }
             >
-              <DatePickerAntDesign />
+              <DatePicker className="p-5 " />
+              {/* <DatePickerAntDesign /> */}
+              {/* <Test /> */}
             </div>
             <div
               className={
