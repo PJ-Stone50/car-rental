@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../../public/images/icons/logo-talren.png";
 
 import LanguagePicker from "./LanguagePicker";
+import Menu from "./Menu";
 
 const text = "Are you sure delete this task?";
 
@@ -11,7 +12,7 @@ function Navbar() {
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const [navbarWidth, setNavbarWidth] = useState(0);
-  const isTablet = useMediaQuery({ query: "(min-width: 780px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
 
   //   const { cart, setShowCart } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -53,16 +54,14 @@ function Navbar() {
 
   return (
     <>
-      <div className="pb-[3.5rem] container-nav">
+      <div className="container-nav">
         <nav
           id="navbar"
-          className={`navBar fixed items-center min-h-[60px] pr-[5rem] shadow-lg flex gap-3 justify-between pl-[10rem] transition-[0.5s] ${
-            hamburgerMenu
-              ? "bg-white w-[300px] text-black  border-r-4"
-              : "bg-white text-black border-b-7"
-          } ${isTablet ? "pl-[10rem]" : "flex flex-col  bg-amber-200"} ${
-            isFloating ? "shadow-xl" : "shadow-xl"
-          }`}
+          className={`navBar  items-center py-5  shadow-lg flex gap-[1rem]  transition-[0.5s]  ${
+            isTablet
+              ? "pl-[3rem] bg-white justify-between pr-[3rem]"
+              : "flex flex-col pb-[2rem] bg-white"
+          } ${isFloating ? "shadow-xl" : "shadow-xl"}`}
           style={{
             width: hamburgerMenu ? navbarWidth : "100%",
             height: `fit-content`,
@@ -70,51 +69,22 @@ function Navbar() {
             zIndex: "100",
           }}
         >
+          {/* <h1>1</h1>
+          <h1>2</h1>
+          <h1>3</h1> */}
           <div
             className={
-              !hamburgerMenu
-                ? "flex  gap-2 w-full pl-[2rem] m-auto bg-red-500"
-                : "flex gap-2 w-full ml-[-5rem] mt-[3rem] bg-white text-black"
+              isTablet
+                ? "flex  gap-2 w-fit  justify-start"
+                : "flex gap-2 w-fit  bg-white text-black justify-center"
             }
           >
             <Link to="/" className="w-fit h-fit  flex ">
-              <h1
-                className={
-                  hamburgerMenu
-                    ? "hidden"
-                    : "font-semibold absolute top-3 left-[80px] text-[24px]"
-                }
-              >
-                RTalrens
-              </h1>
+              <img src={Logo} alt="" />
             </Link>
-            {(isTablet || hamburgerMenu) && (
-              <ul
-                className={`flex ${
-                  !isTablet && hamburgerMenu
-                    ? "flex-col gap-[3rem] w-full  h-screen  items-center justify-start"
-                    : "flex items-center justify-center  gap-[30px]"
-                }`}
-              >
-                <li className="cursor-pointer opacity-70 hover:opacity-100 ">
-                  <button
-                    onClick={() => navigate(`/productlist/${key}`)}
-                    className="text-[16px]"
-                  >
-                    menu1
-                  </button>
-                </li>
-                <li className="cursor-pointer opacity-70 hover:opacity-100 ">
-                  <button
-                    onClick={() => navigate(`/productlist/${key}`)}
-                    className="text-[16px]"
-                  >
-                    menu2
-                  </button>
-                </li>
-              </ul>
-            )}
           </div>
+
+          <Menu />
 
           <div className="flex gap-3 items-center">
             <LanguagePicker />
