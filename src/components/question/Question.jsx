@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import FirstQuestion from "./FirstQuestion";
 
 function Dropdown({ title, children, isOpen, onClick }) {
   const contentRef = useRef(null);
@@ -16,7 +17,7 @@ function Dropdown({ title, children, isOpen, onClick }) {
   }, [isOpen]);
 
   return (
-    <div className="w-full h-fit bg-amber-200 flex flex-col">
+    <div className="w-full h-fit  flex flex-col">
       <div
         onClick={onClick}
         className="w-full h-fit cursor-pointer items-center bg-[#F7F7F7] border-2 border-[#E0E0E0] flex justify-start"
@@ -40,9 +41,7 @@ function Dropdown({ title, children, isOpen, onClick }) {
         className="overflow-hidden transition-height"
         style={{ height: `${containerHeight}px` }}
       >
-        <div className="bg-white border-2 border-b-red-500 p-3 mb-3">
-          {children}
-        </div>
+        <div className="bg-white border-2  p-3">{children}</div>
       </div>
     </div>
   );
@@ -82,8 +81,9 @@ function Question() {
         title="นโยบายการยกเลิกคืออะไร?"
         isOpen={dropdownStates[0]}
         onClick={() => toggleDropdown(0)}
+        className="px-[3rem]"
       >
-        <h1>123</h1>
+        <FirstQuestion />
       </Dropdown>
       <Dropdown
         title="ฉันต้องนำเอกสารอะไรไปบ้างเมื่อรับรถ?"
