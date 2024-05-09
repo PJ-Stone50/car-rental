@@ -3,7 +3,7 @@ import Navbar from "../components/navbar/Navbar";
 import HomeBackground from "../../public/images/backgrounds/home-bg.jpeg";
 import { useMediaQuery } from "react-responsive";
 import DatePickerAntDesign from "../components/DatePickerAntDesign";
-import { BsInfoCircle } from "react-icons/bs";
+import { FaCircleInfo } from "react-icons/fa6";
 import AgeSelect from "../components/AgeSelect";
 import Footer from "../components/footer/Footer";
 import DatePicker from "../components/DatePicker";
@@ -11,6 +11,24 @@ import DatePicker from "../components/DatePicker";
 import Test from "../components/Test";
 import TimeSelect from "../components/TimeSelect";
 import { FaSearch } from "react-icons/fa";
+import Supplier from "../components/supplier/Supplier";
+import Question from "../components/question/Question";
+import { Popover } from "antd";
+import PopularDestination from "../components/popular/PopularDestination";
+
+const text = <></>;
+
+const content = (
+  <div className="">
+    <p>
+      บริษัทเช่ารถอาจเรียกเก็บค่าธรรมเนียมเพิ่มเติม หากผู้ขับขี่มีอายุไม่เกิน 21
+    </p>
+    <p>
+      ปีหรือ 65 ปีขึ้นไป อายุที่เลือกควรเป็นอายุของผู้ขับขี่ในระหว่างการเช่า
+    </p>
+    <p>โปรดตรวจสอบข้อกำหนดและเงื่อนไขสำหรับรายละเอียดเพิ่มเติม</p>
+  </div>
+);
 
 export default function Home() {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
@@ -54,7 +72,7 @@ export default function Home() {
       <Navbar />
 
       <div
-        className="relative w-full h-full   flex justify-center "
+        className="relative w-full h-fit   flex justify-center "
         // style={{
         //   backgroundImage: `url(${HomeBackground})`,
         // }}
@@ -72,13 +90,17 @@ export default function Home() {
             backgroundAttachment: "fixed",
             backgroundPosition: "center",
           }}
-          className="w-full h-full px-5 flex justify-center items-center"
+          className={
+            isMobile
+              ? "w-full h-[500px] bg-amber-200 px-5 flex justify-center items-center"
+              : "w-full h-[700px] px-5 flex justify-center items-center"
+          }
         >
           <div
             className={
               isTablet
                 ? "w-fit h-fit mx-[5rem] flex gap-3 bg-white   rounded  px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
-                : "w-full h-fit mx-[5rem] flex flex-col bg-white mt-[-15rem]  rounded gap-3  px-5     p-4 shadow-lg z-10"
+                : "w-full h-fit  mx-[5rem] flex flex-col bg-white  rounded gap-3  px-5     p-4 shadow-lg z-10"
             }
           >
             <div
@@ -117,7 +139,9 @@ export default function Home() {
                 }
               >
                 {sameLocation ? (
-                  <h1 className="text-[14px] text-black">สถานที่รับและคืนรถ</h1>
+                  <h1 className="text-[14px] text-[#424242]">
+                    สถานที่รับและคืนรถ
+                  </h1>
                 ) : (
                   <h1 className="opacity-80">สถานที่รับรถ</h1>
                 )}
@@ -173,13 +197,16 @@ export default function Home() {
               <div
                 className={
                   isTablet
-                    ? "flex gap-2 w-full ml-[20rem] pr-[1rem] whitespace-nowrap items-center text-[18px] font-medium"
-                    : "flex gap-2 w-fit text-[13px] pr-[1rem] whitespace-nowrap items-center  font-medium"
+                    ? "flex gap-2 w-full ml-[20rem] pr-[1rem] whitespace-nowrap items-center text-[16px] font-normal text-[#424242]"
+                    : "flex gap-2 w-fit text-[13px] pr-[1rem] whitespace-nowrap items-center  font-normal text-[#424242]  "
                 }
                 // style={{ fontSize: "1.5vw" }}
               >
                 <p className="">อายุของผู้ขับขี่</p>
-                <BsInfoCircle className="min-w-[15px] min-h-[15px]" /> :{" "}
+                <Popover placement="topLeft" title={text} content={content}>
+                  <FaCircleInfo className="min-w-[15px] min-h-[15px] cursor-pointer" />
+                </Popover>
+
                 <p>อยู่ระหว่าง</p>
                 <AgeSelect />
               </div>
@@ -218,6 +245,9 @@ export default function Home() {
 
         {/* <DatePickerAntDesign /> */}
       </div>
+      <Supplier />
+      <Question />
+      <PopularDestination />
       <Footer />
     </div>
   );
