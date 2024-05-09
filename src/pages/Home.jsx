@@ -15,18 +15,16 @@ import Supplier from "../components/supplier/Supplier";
 import Question from "../components/question/Question";
 import { Popover } from "antd";
 import PopularDestination from "../components/popular/PopularDestination";
+import CustomTooltip from "../components/CustomTooltip";
 
 const text = <></>;
 
 const content = (
-  <div className="">
-    <p>
-      บริษัทเช่ารถอาจเรียกเก็บค่าธรรมเนียมเพิ่มเติม หากผู้ขับขี่มีอายุไม่เกิน 21
-    </p>
-    <p>
-      ปีหรือ 65 ปีขึ้นไป อายุที่เลือกควรเป็นอายุของผู้ขับขี่ในระหว่างการเช่า
-    </p>
-    <p>โปรดตรวจสอบข้อกำหนดและเงื่อนไขสำหรับรายละเอียดเพิ่มเติม</p>
+  <div className="z-10">
+    <p>บริษัทเช่ารถอาจเรียกเก็บค่าธรรมเนียมเพิ่มเติม หากผู้ขับขี่</p>
+    <p>มีอายุไม่เกิน 21 ปีหรือ 65 ปีขึ้นไป อายุที่เลือกควรเป็นอายุ</p>
+    <p>ของผู้ขับขี่ ในระหว่างการเช่าโปรดตรวจสอบข้อกำหนด</p>
+    <p>และเงื่อนไขสำหรับรายละเอียดเพิ่มเติม</p>
   </div>
 );
 
@@ -203,9 +201,9 @@ export default function Home() {
                 // style={{ fontSize: "1.5vw" }}
               >
                 <p className="">อายุของผู้ขับขี่</p>
-                <Popover placement="topLeft" title={text} content={content}>
+                <CustomTooltip title={text} content={content}>
                   <FaCircleInfo className="min-w-[15px] min-h-[15px] cursor-pointer" />
-                </Popover>
+                </CustomTooltip>
 
                 <p>อยู่ระหว่าง</p>
                 <AgeSelect />
