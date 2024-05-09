@@ -10,9 +10,10 @@ import DatePicker from "../components/DatePicker";
 // import { DatePicker } from "antd";
 import Test from "../components/Test";
 import TimeSelect from "../components/TimeSelect";
+import { FaSearch } from "react-icons/fa";
 
 export default function Home() {
-  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
   const [pickupLocation, setPickupLocation] = useState("");
   const [returnLocation, setReturnLocation] = useState("");
@@ -76,14 +77,14 @@ export default function Home() {
           <div
             className={
               isTablet
-                ? "w-fit h-fit flex gap-3 bg-white mx-[1rem] pt-[4rem] rounded-lg  px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
-                : "w-full h-fit flex flex-col bg-amber-200 mt-[-15rem] mx-[3rem] rounded-lg gap-3  px-5     p-4 shadow-lg z-10"
+                ? "w-fit h-fit mx-[5rem] flex gap-3 bg-white   rounded  px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
+                : "w-full h-fit mx-[5rem] flex flex-col bg-white mt-[-15rem]  rounded gap-3  px-5     p-4 shadow-lg z-10"
             }
           >
             <div
               className={
                 isTablet
-                  ? "custom-checkbox  items-center flex justify-center absolute top-[20px]  "
+                  ? "custom-checkbox  items-center flex justify-center absolute bottom-[25px] "
                   : "custom-checkbox   "
               }
             >
@@ -96,7 +97,7 @@ export default function Home() {
                 className="mr-2 "
                 style={{ display: "none" }} // Hide the default checkbox
               />
-              <label htmlFor="same-location-checkbox" className="">
+              <label htmlFor="same-location-checkbox" className="z-10">
                 ส่งรถคืนที่เดิม
               </label>
             </div>
@@ -111,12 +112,12 @@ export default function Home() {
               <div
                 className={
                   isTablet
-                    ? "w-full h-fit whitespace-nowrap cursor-pointer pr-[3rem] flex flex-col rounded-md bg-[#F3F6F9] py-3 px-2 border-[1.5px] border-[#E0E3E7]"
-                    : "w-full h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+                    ? "w-full h-fit whitespace-nowrap cursor-pointer flex flex-col rounded bg-[#F3F6F9] py-3 px-2 pr-[10rem] border-[1.5px] border-[#E0E3E7]"
+                    : "w-full h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
                 }
               >
                 {sameLocation ? (
-                  <h1 className="opacity-80 ">สถานที่รับและคืนรถ</h1>
+                  <h1 className="text-[14px] text-black">สถานที่รับและคืนรถ</h1>
                 ) : (
                   <h1 className="opacity-80">สถานที่รับรถ</h1>
                 )}
@@ -134,8 +135,8 @@ export default function Home() {
                   <div
                     className={
                       isTablet
-                        ? "w-full h-fit whitespace-nowrap cursor-pointer pr-[5rem] flex flex-col rounded-md bg-[#F3F6F9] py-3 px-2 border-[1.5px] border-[#E0E3E7]"
-                        : "w-full h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+                        ? "w-full mr-[6rem] h-fit whitespace-nowrap cursor-pointer pr-[5rem] flex flex-col rounded bg-[#F3F6F9] py-3 px-2 border-[1.5px] border-[#E0E3E7]"
+                        : "w-full  h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
                     }
                   >
                     <h1 className="opacity-80 ">สถานที่คืนรถ</h1>
@@ -165,16 +166,17 @@ export default function Home() {
             <div
               className={
                 isTablet
-                  ? "  items-center flex justify-between absolute bottom-[12px] w-[95%]   "
-                  : " md:flex justify-between items-center py-[.5rem]  w-full "
+                  ? "  items-center flex justify-between  absolute bottom-[12px] w-[95%]   "
+                  : " md:flex justify-start  items-center py-[.5rem]  w-full "
               }
             >
               <div
                 className={
-                  isMobile
-                    ? "flex gap-2 w-full pr-[1rem] whitespace-nowrap items-center text-[18px] font-medium"
-                    : "flex gap-2 w-full pr-[1rem] whitespace-nowrap items-center text-[16px] font-medium"
+                  isTablet
+                    ? "flex gap-2 w-full ml-[20rem] pr-[1rem] whitespace-nowrap items-center text-[18px] font-medium"
+                    : "flex gap-2 w-fit text-[13px] pr-[1rem] whitespace-nowrap items-center  font-medium"
                 }
+                // style={{ fontSize: "1.5vw" }}
               >
                 <p className="">อายุของผู้ขับขี่</p>
                 <BsInfoCircle className="min-w-[15px] min-h-[15px]" /> :{" "}
@@ -198,15 +200,16 @@ export default function Home() {
                 htmlFor=""
                 className={
                   isTablet
-                    ? "cursor-pointer  w-1/3  whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
-                    : "cursor-pointer  w-full md:mt-[0rem] mt-[1rem]   whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
+                    ? "w-fit px-[3rem] cursor-pointer items-center flex gap-2 justify-center   whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-full"
+                    : "w-full cursor-pointer items-center flex gap-2 justify-center  md:mt-[0rem] mt-[1rem]   whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
                 }
                 style={{
                   background:
                     "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
                 }}
               >
-                Searcsh
+                <FaSearch className="w-[25px] h-[25px]" />
+                Search
               </button>
               {/* <div className="w-full h-full bg-green-500 p-5 "></div> */}
             </div>

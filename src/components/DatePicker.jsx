@@ -77,12 +77,16 @@ function DatePicker() {
       className={
         isTablet
           ? "containerDateRange gap-5"
-          : "containerDateRange flex flex-col my-8"
+          : "containerDateRange flex flex-col my-8 gap-3"
       }
     >
       <div className="flex w-full">
         <span
-          className="calendar pt-[2rem] relative whitespace-nowrap font-bold w-full h-fit cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+          className={
+            isMobile
+              ? "calendar rounded pr-[8rem] pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+              : "calendar rounded  pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+          }
           onClick={() => setOpenDate(!openDate)}
         >
           {date.startDate ? (
@@ -90,9 +94,12 @@ function DatePicker() {
           ) : (
             <h1>startDate</h1>
           )}
-          <label htmlFor="" className="absolute top-3 left-5 font-normal">
-            วันรับรถ
-          </label>
+          <h1
+            htmlFor=""
+            className="absolute top-3 left-5 font-normal text-[14px]"
+          >
+            วันที่และเวลารับรถ
+          </h1>
         </span>
         {/* TimeSelect */}
         <div>
@@ -101,7 +108,7 @@ function DatePicker() {
             id="timeSelect"
             value={startTime}
             onChange={handleStartChange}
-            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[80px] text-center items-center rounded-md bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            className=" whitespace-nowrap cursor-pointer w-fit  h-[78px] text-center items-center border-l-[0px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
           >
             {generateOptions()}
           </select>
@@ -111,7 +118,11 @@ function DatePicker() {
 
       <div className="flex w-full">
         <span
-          className="calendar  relative whitespace-nowrap font-bold w-full h-fit cursor-pointer  flex flex-col rounded-md bg-[#F3F6F9]  justify-center pt-[2rem] border-[1.5px] border-[#E0E3E7]"
+          className={
+            isMobile
+              ? "calendar pr-[8rem] pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+              : "calendar  pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+          }
           onClick={() => setOpenDate(!openDate)}
         >
           {date.endDate ? (
@@ -120,7 +131,7 @@ function DatePicker() {
             <h1>endDate</h1>
           )}
           <label htmlFor="" className="absolute top-3 left-5 font-normal">
-            วันคืนรถ
+            วันที่และเวลาคืนรถ
           </label>
         </span>
         {/* TimeSelect */}
@@ -130,7 +141,7 @@ function DatePicker() {
             id="timeSelect"
             value={endTime}
             onChange={handleEndChange}
-            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[80px] text-center items-center rounded-md bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] border-l-[0px] text-center items-center  bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
           >
             {generateOptions()}
           </select>

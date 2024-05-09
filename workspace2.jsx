@@ -1,159 +1,188 @@
-import React, { useEffect, useState } from "react";
-import "../components/datePicker.css";
+import { useState, useRef, useEffect } from "react";
+import { DateRangePicker, DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { format } from "date-fns";
+import { useMediaQuery } from "react-responsive";
+import { RiH1 } from "react-icons/ri";
 
-import en from "antd/es/date-picker/locale/en_US";
-import enUS from "antd/es/locale/en_US";
-import buddhistEra from "dayjs/plugin/buddhistEra";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-dayjs.extend(customParseFormat);
-dayjs.extend(buddhistEra);
+function DatePicker() {
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
-//Antd
-import { Space, TimePicker, DatePicker, Typography, Select } from "antd";
-const { Title } = Typography;
+  const [openDate, setOpenDate] = useState(false);
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: null,
+    key: "selection",
+  });
 
-// import moment from "moment";
-const { RangePicker } = DatePicker;
+  // Initialize state for selected time
+  const [startTime, setStartTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("00:00");
 
-const range = (start, end) => {
-  const result = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-};
-
-// eslint-disable-next-line arrow-body-style
-const disabledDate = (current) => {
-  // Can not select days before today and today
-  return current && current < dayjs().endOf("day");
-};
-const disabledDateTime = () => ({
-  disabledHours: () => range(0, 24).splice(4, 20),
-  disabledMinutes: () => range(30, 60),
-  disabledSeconds: () => [55, 56],
-});
-const disabledRangeTime = (_, type) => {
-  if (type === "start") {
-    return {
-      disabledHours: () => range(0, 60).splice(4, 20),
-      disabledMinutes: () => range(30, 60),
-      disabledSeconds: () => [55, 56],
-    };
-  }
-  return {
-    disabledHours: () => range(0, 60).splice(20, 4),
-    disabledMinutes: () => range(0, 31),
-    disabledSeconds: () => [55, 56],
+  // Function to handle change in select input
+  const handleStartChange = (event) => {
+    setStartTime(event.target.value);
   };
-};
-// Component level locale
-const buddhistLocale = {
-  ...en,
-  lang: {
-    ...en.lang,
-    fieldDateFormat: "BBBB-MM-DD",
-    fieldDateTimeFormat: "BBBB-MM-DD HH:mm:ss",
-    yearFormat: "BBBB",
-    cellYearFormat: "BBBB",
-  },
-};
-
-// ConfigProvider level locale
-const globalBuddhistLocale = {
-  ...enUS,
-  DatePicker: {
-    ...enUS.DatePicker,
-    lang: buddhistLocale.lang,
-  },
-};
-
-const defaultValue = dayjs("2024-01-01");
-
-const { Option } = Select;
-const PickerWithType = ({ onChange }) => {
-  return <DatePicker picker={"time"} onChange={onChange} />;
-};
-
-function DatePickerAntd() {
-  // const [openDate, setOpenDate] = useState(false);
-  // const [date, setDate] = useState({
-  //   startDate: new Date(),
-  //   endDate: new Date(),
-  //   key: "selection",
-  // });
-
-  const [dates, setDates] = useState([]);
-
-  const onChange = (_, dateStr) => {
-    console.log("onChange:", dateStr);
+  // Function to handle change in select input
+  const handleEndChange = (event) => {
+    setEndTime(event.target.value);
   };
+
+  // Generate options for select input
+  const generateOptions = () => {
+    const options = [];
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const timeString = `${hour.toString().padStart(2, "0")}:${minute
+          .toString()
+          .padStart(2, "0")}`;
+        options.push(
+          <option key={timeString} value={timeString}>
+            {timeString}
+          </option>
+        );
+      }
+    }
+    return options;
+  };
+
+  const handleChange = (ranges) => {
+    setDate(ranges.selection);
+  };
+
+  const dateRangeRef = useRef(null);
 
   useEffect(() => {
-    console.log("Date: ", dates);
-  }, [dates]);
+    const handleClickOutside = (event) => {
+      if (
+        dateRangeRef.current &&
+        !dateRangeRef.current.contains(event.target)
+      ) {
+        setOpenDate(false);
+      }
+    };
 
-  const onOk = (value) => {
-    console.log("onOk: ", value);
-  };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+
+    console.log("Status", openDate);
+  }, []);
 
   return (
-    <div className="container gap-5">
-      <Space direction="vertical" size={12}>
-        <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
-          <h1 className="text-2xl font-bold">Version 1</h1>
-          <RangePicker
-            // value="test"
-            format="DD-MM-YYYY HH:mm"
-            disabledDate={disabledDate}
-            disabledTime={disabledDateTime}
-            renderExtraFooter={() => "extra footer"}
-            onChange={(values) => {
-              setDates(values);
-            }}
-          />
-          <div className="flex gap-3">
-            <div className="w-full flex gap-3">
-              <h1 className="whitespace-nowrap">เวลารับรถ</h1>
-              <PickerWithType
-                type={"time"}
-                onChange={(value) => console.log(value)}
-              />
-            </div>
-            <div className="w-full  flex gap-3">
-              <h1 className="whitespace-nowrap">เวลาคืนรถ</h1>
-              <PickerWithType
-                type={"time"}
-                onChange={(value) => console.log(value)}
-              />
-            </div>
-          </div>
+    <div
+      className={
+        isTablet
+          ? "containerDateRange gap-5"
+          : "containerDateRange flex flex-col my-8"
+      }
+    >
+      <div className="flex w-full">
+        <span
+          className={
+            isMobile
+              ? "calendar pr-[8rem] pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+              : "calendar  pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+          }
+          onClick={() => setOpenDate(!openDate)}
+        >
+          {date.startDate ? (
+            date.startDate && format(date.startDate, "MMM, dd, yyyy")
+          ) : (
+            <h1>startDate</h1>
+          )}
+          <h1
+            htmlFor=""
+            className="absolute top-3 left-5 font-normal text-[14px]"
+          >
+            วันที่และเวลารับรถ
+          </h1>
+        </span>
+        {/* TimeSelect */}
+        <div>
+          {/* <label htmlFor="timeSelect">Select Time:</label> */}
+          <select
+            id="timeSelect"
+            value={startTime}
+            onChange={handleStartChange}
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] text-center items-center border-l-[0px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+          >
+            {generateOptions()}
+          </select>
+          {/* <p>Selected Time: {selectedTime}</p> */}
         </div>
+      </div>
 
-        <div className="w-full h-full p-5 flex flex-col gap-5 bg-white shadow-xl rounded-lg border-gray">
-          <h1 className="text-2xl font-bold">Version 2</h1>
-
-          <Space direction="vertical" size={12}>
-            <RangePicker
-              showTime={{
-                format: "HH:mm",
-              }}
-              format="DD-MM-DD HH:mm"
-              disabledDate={disabledDate}
-              disabledTime={disabledDateTime}
-              renderExtraFooter={() => "extra footer"}
-              onChange={(value, dateString) => {
-                console.log("Selected Time: ", value);
-                console.log("Formatted Selected Time: ", dateString);
-              }}
-              onOk={onOk}
+      <div className="flex w-full">
+        <span
+          className={
+            isMobile
+              ? "calendar pr-[8rem] pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+              : "calendar  pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+          }
+          onClick={() => setOpenDate(!openDate)}
+        >
+          {date.endDate ? (
+            date.endDate && format(date.endDate, "MMM, dd, yyyy")
+          ) : (
+            <h1>endDate</h1>
+          )}
+          <label htmlFor="" className="absolute top-3 left-5 font-normal">
+            วันที่และเวลาคืนรถ
+          </label>
+        </span>
+        {/* TimeSelect */}
+        <div>
+          {/* <label htmlFor="timeSelect">Select Time:</label> */}
+          <select
+            id="timeSelect"
+            value={endTime}
+            onChange={handleEndChange}
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] border-l-[0px] text-center items-center  bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+          >
+            {generateOptions()}
+          </select>
+          {/* <p>Selected Time: {selectedTime}</p> */}
+        </div>
+      </div>
+      {openDate && (
+        <div ref={dateRangeRef}>
+          {isMobile ? (
+            <DateRange
+              className={
+                isTablet
+                  ? "absolute top-[100%] left-[-200px] bg-white z-10 scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[0px] bg-white z-10 scale-110 transition-[1s]"
+              }
+              onChange={(ranges) => handleChange(ranges)}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              ranges={[date]} // Pass date directly instead of wrapping it in an array
+              direction="horizontal"
             />
-          </Space>
+          ) : (
+            <DateRange
+              className={
+                isMobile
+                  ? "absolute top-[10px] left-[10px] z-10 bg-white"
+                  : "absolute top-[100%]  left-[-50px] z-10 bg-white"
+              }
+              onChange={(ranges) => handleChange(ranges)}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              ranges={[date]} // Pass date directly instead of wrapping it in an array
+              direction="horizontal"
+            />
+          )}
         </div>
-      </Space>
+      )}
     </div>
   );
 }
 
-export default DatePickerAntd;
+export default DatePicker;
