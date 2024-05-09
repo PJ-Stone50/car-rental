@@ -88,12 +88,10 @@ function Navbar() {
 
           <div className="flex gap-3 items-center">
             <LanguagePicker />
-            <Link className="cursor-pointer">
-              <h1 className="text-[18px] font-semibold">สมัครสมาชิก</h1>
-            </Link>
+
             <Link>
               <label
-                className="cursor-pointer whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
+                className="cursor-pointer whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-full px-[2rem]"
                 style={{
                   background:
                     "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
