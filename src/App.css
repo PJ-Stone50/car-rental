@@ -118,3 +118,67 @@
   position: absolute;
   top: 120px;
 }
+
+.transition-height {
+  transition: height 0.5s ease-in-out;
+}
+
+.dropdownContainer {
+  height: 0;
+  transition: 1s;
+}
+
+.opened {
+  height: 300px;
+  transition: 1s;
+  z-index: 100;
+}
+
+.click-btn {
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  line-height: 35px;
+  border: 1px solid;
+  /* border-radius: $border-radius; */
+  text-align: center;
+  font-size: 16px;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.35s;
+  box-sizing: border-box;
+}
+
+/* Media query for tablet */
+@media (min-width: 768px) and (max-width: 1240px) {
+  .click-btn {
+    width: 33.33%;
+  }
+}
+
+/* Media query for mobile */
+@media (max-width: 767px) {
+  .click-btn {
+    width: 100%;
+  }
+}
+
+.buttons-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* .btn-style501 {
+  $btn-color: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 51%, #a1c4fd 100%);
+  background-image: $btn-color;
+  background-size: 200% auto;
+  background-position: left top;
+  border-color: transparent;
+  color: #464646;
+  &:hover {
+    background-position: right bottom;
+    color: #000;
+  }
+} */

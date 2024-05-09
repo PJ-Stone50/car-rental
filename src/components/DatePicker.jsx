@@ -96,7 +96,7 @@ function DatePicker() {
           )}
           <h1
             htmlFor=""
-            className="absolute top-3 left-5 font-normal text-[14px]"
+            className="absolute top-3 left-5 font-normal text-[14px] text-[#424242]"
           >
             วันที่และเวลารับรถ
           </h1>
@@ -130,7 +130,10 @@ function DatePicker() {
           ) : (
             <h1>endDate</h1>
           )}
-          <label htmlFor="" className="absolute top-3 left-5 font-normal">
+          <label
+            htmlFor=""
+            className="absolute top-3 left-5 font-normal text-[#424242]"
+          >
             วันที่และเวลาคืนรถ
           </label>
         </span>
@@ -163,6 +166,7 @@ function DatePicker() {
               months={2}
               ranges={[date]} // Pass date directly instead of wrapping it in an array
               direction="horizontal"
+              minDate={new Date()} // Set minDate to the current date to disable past dates
             />
           ) : (
             <DateRange
@@ -177,6 +181,7 @@ function DatePicker() {
               months={2}
               ranges={[date]} // Pass date directly instead of wrapping it in an array
               direction="horizontal"
+              minDate={new Date()} // Set minDate to the current date to disable past dates
             />
           )}
         </div>
