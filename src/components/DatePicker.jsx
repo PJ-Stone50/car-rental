@@ -7,8 +7,13 @@ import { useMediaQuery } from "react-responsive";
 import { RiH1 } from "react-icons/ri";
 
 function DatePicker() {
-  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 1260px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+
+  const smallDevice = window.matchMedia("(max-width: 400px)").matches;
+  // const orientation = smallDevice
+  //   ? VERTICAL_ORIENTATION
+  //   : HORIZONTAL_ORIENTATION;
 
   const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState({
@@ -158,7 +163,7 @@ function DatePicker() {
               className={
                 isTablet
                   ? "absolute top-[100%] left-[-200px] bg-white z-10 scale-110 transition-[1s]"
-                  : "absolute top-[100%] left-[0px] bg-white z-10 scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[0px] bg-white  z-10 scale-60 transition-[1s]"
               }
               onChange={(ranges) => handleChange(ranges)}
               showSelectionPreview={true}
@@ -173,8 +178,9 @@ function DatePicker() {
               className={
                 isMobile
                   ? "absolute top-[10px] left-[10px] z-10 bg-white"
-                  : "absolute top-[100%]  left-[-50px] z-10 bg-white"
+                  : "absolute top-[100%] flex flex-col left-[-50px] z-10 bg-white"
               }
+              withPortal={window.matchMedia("(max-width: 400px)").matches}
               onChange={(ranges) => handleChange(ranges)}
               showSelectionPreview={true}
               moveRangeOnFirstSelection={false}

@@ -20,39 +20,39 @@ function PopularDestination() {
             : "w-full h-fit flex flex-wrap gap-1 whitespace-nowrap"
         }
       >
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ ภูเก็ต{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ เชียงราย{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ กระบี่{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ นครศรีธรรมราช{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ พัทยา{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ น่าน{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ หัวหิน{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ กรุงเทพฯ{" "}
         </li>
         |
-        <li className="text-[#424242] hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
+        <li className="text-[#424242]  hover:opacity-100 hover:text-black duration-500 cursor-pointer opacity-70">
           เช่ารถ น่าน{" "}
         </li>
         |
