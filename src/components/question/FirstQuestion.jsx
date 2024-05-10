@@ -2,12 +2,12 @@ import React from "react";
 
 function FirstQuestion() {
   return (
-    <div>
+    <div className="py-3 flex flex-col gap-1">
       <p className="font-medium text-[#424242]">
         นโยบายการยกเลิกและการคืนเงินอาจแตกต่างกัน
         ขึ้นอยู่กับตัวเลือกการชำระเงินของคุณ
       </p>
-      <h3 className="font-semibold pt-[1rem]">1. ยกเลิกก่อนรับรถ</h3>
+      <h3 className="font-semibold ">1. ยกเลิกก่อนรับรถ</h3>
       <p className="font-medium text-[#424242]">
         <label className="pl-[1.5rem] text-black font-semibold">
           1.1 ชำระเงินทันที:
@@ -34,7 +34,7 @@ function FirstQuestion() {
         ค้นหา "นโยบายการยกเลิก" จากการจองของคุณ แล้วคลิก "สมัครขอเงินคืน"
         การจองของคุณจะถูกยกเลิกโดยไม่มีการเรียกเก็บค่าธรรมเนียมใด ๆ
       </p>
-      <h3 className="font-semibold pt-[1rem]">
+      <h3 className="font-semibold pt-[.5rem]">
         2. การยกเลิกหลังรับหรือไม่แสดงตัว
       </h3>
       <p className="font-medium text-[#424242]">

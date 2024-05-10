@@ -48,7 +48,7 @@ function Supplier() {
         className={
           isTablet
             ? "w-full h-full flex    gap-5"
-            : "w-full h-full grid grid-cols-3 md:grid-cols-4 gap-5 pb-[3rem]"
+            : "w-full h-full bg-white grid grid-cols-3 md:grid-cols-4 gap-5 pb-[3rem]"
         }
       >
         {suppliers.map((element, index) => (
@@ -62,7 +62,7 @@ function Supplier() {
           >
             <img
               src={element}
-              alt="partner1"
+              alt={`partner${index}`}
               className={
                 isMobile
                   ? "rounded w-full h-full object-cover "

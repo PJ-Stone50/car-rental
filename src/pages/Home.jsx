@@ -16,6 +16,7 @@ import Question from "../components/question/Question";
 import { Popover } from "antd";
 import PopularDestination from "../components/popular/PopularDestination";
 import CustomTooltip from "../components/CustomTooltip";
+import { RippleButton } from "../components/navbar/RippleButton";
 
 const text = <></>;
 
@@ -69,17 +70,7 @@ export default function Home() {
     <div className="w-screen h-screen ">
       <Navbar />
 
-      <div
-        className="relative w-full h-fit   flex justify-center "
-        // style={{
-        //   backgroundImage: `url(${HomeBackground})`,
-        // }}
-      >
-        {/* <img
-          src={HomeBackground}
-          alt="Home background"
-          className="  w-full h-1/2 absolute top-0 object-cover"
-        /> */}
+      <div className="relative w-full h-fit   flex justify-center ">
         <div
           style={{
             backgroundImage: `url(${HomeBackground})`,
@@ -90,7 +81,7 @@ export default function Home() {
           }}
           className={
             isMobile
-              ? "w-full h-[500px] bg-amber-200 px-5 flex justify-center items-center"
+              ? "w-full h-[500px] bg-white px-5 flex justify-center items-center"
               : "w-full h-[700px] px-5 flex justify-center items-center"
           }
         >
@@ -182,8 +173,6 @@ export default function Home() {
               }
             >
               <DatePicker className="p-5 " />
-              {/* <DatePickerAntDesign /> */}
-              {/* <Test /> */}
             </div>
             <div
               className={
@@ -208,20 +197,8 @@ export default function Home() {
                 <p>อยู่ระหว่าง</p>
                 <AgeSelect />
               </div>
-              {/* <label
-              className={
-                isMobile
-                  ? "cursor-pointer px-5 py-3 w-full bg-black whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
-                  : "cursor-pointer px-5 py-3 w-full bg-amber-200 whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
-              }
-              // style={{
-              //   background:
-              //     "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
-              // }}
-            >
-              ค้นหา
-            </label> */}
-              <button
+
+              {/* <button
                 htmlFor=""
                 className={
                   isTablet
@@ -235,8 +212,8 @@ export default function Home() {
               >
                 <FaSearch className="w-[25px] h-[25px]" />
                 Search
-              </button>
-              {/* <div className="w-full h-full bg-green-500 p-5 "></div> */}
+              </button> */}
+              <RippleButton className="w-full">Search</RippleButton>
             </div>
           </div>
         </div>

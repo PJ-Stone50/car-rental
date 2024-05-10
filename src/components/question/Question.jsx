@@ -3,6 +3,10 @@ import { useMediaQuery } from "react-responsive";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FirstQuestion from "./FirstQuestion";
+import SecondQuestion from "./SecondQuestion";
+import ThirdQuestion from "./ThirdQuestion";
+import FouthQuestion from "./FouthQuestion";
+import { RippleButton } from "../navbar/RippleButton";
 
 function Dropdown({ title, children, isOpen, onClick }) {
   const contentRef = useRef(null);
@@ -90,34 +94,28 @@ function Question() {
         isOpen={dropdownStates[1]}
         onClick={() => toggleDropdown(1)}
       >
-        <h1>456</h1>
+        <SecondQuestion />
       </Dropdown>
       <Dropdown
         title="ฉันสามารถตรวจสอบความคุ้มครองประกันรถเช่าได้ที่ไหน?"
         isOpen={dropdownStates[2]}
         onClick={() => toggleDropdown(2)}
       >
-        <h1>789</h1>
+        <ThirdQuestion />
       </Dropdown>
       <Dropdown
         title="ฉันสามารถรับรถที่จุดหนึ่งและคืนที่จุดอื่นได้หรือไม่?"
         isOpen={dropdownStates[3]}
         onClick={() => toggleDropdown(3)}
       >
-        <h1>ABC</h1>
+        <FouthQuestion />
       </Dropdown>
 
       <div className="buttonContainer w-full h-fit flex justify-center my-[3rem]">
         <Link>
-          <label
-            className="cursor-pointer whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-full px-[2rem]"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
-            }}
-          >
+          <RippleButton className="rounded-full">
             ดูคำถามที่พบบ่อยทั้งหมด
-          </label>
+          </RippleButton>
         </Link>
       </div>
     </div>
