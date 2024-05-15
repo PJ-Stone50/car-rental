@@ -7,6 +7,7 @@ import ThirdQuestion from "./ThirdQuestion";
 import FouthQuestion from "./FouthQuestion";
 import { RippleButton } from "../navbar/ripple/RippleButton";
 import { useMediaQuery } from "react-responsive";
+import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 
 function Dropdown({ title, children, isOpen, onClick }) {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
@@ -27,17 +28,17 @@ function Dropdown({ title, children, isOpen, onClick }) {
     <div className="w-full h-fit  flex flex-col">
       <div
         onClick={onClick}
-        className="w-full h-fit cursor-pointer items-center bg-[#F7F7F7] border-2 border-[#E0E0E0] flex justify-start"
+        className="w-full h-[70px] cursor-pointer items-center bg-[#F7F7F7] border-2 border-b-0 flex justify-start"
       >
         {isOpen ? (
-          <FaChevronDown
-            className="w-[25px] h-[25px] text-[#424242] transition-transform duration-300 "
-            style={{ marginLeft: "1.5rem" }}
+          <FaAngleDown
+            className="w-[18px] h-[18px]  transition-transform duration-300 "
+            style={{ marginLeft: "1.5rem", color: "rgba(0, 0, 0, 0.54)" }}
           />
         ) : (
-          <FaChevronRight
-            className="w-[25px] h-[25px] text-[#424242] transition-transform duration-300"
-            style={{ marginLeft: "1.5rem" }}
+          <FaAngleRight
+            className="w-[18px] h-[18px]  transition-transform duration-300"
+            style={{ marginLeft: "1.5rem", color: "rgba(0, 0, 0, 0.54)" }}
           />
         )}
 
@@ -48,7 +49,7 @@ function Dropdown({ title, children, isOpen, onClick }) {
               : "text-[20px] text-black font-medium p-[1.5rem] duration-500"
           }
         >
-          {title}
+          <p className="font-medium text-[20px]">{title}</p>
         </h1>
       </div>
       <div
@@ -56,7 +57,7 @@ function Dropdown({ title, children, isOpen, onClick }) {
         className="overflow-hidden transition-height"
         style={{ height: `${containerHeight}px` }}
       >
-        <div className="bg-white border-2  p-3">{children}</div>
+        <div className="bg-white border-2   p-3">{children}</div>
       </div>
     </div>
   );
@@ -90,7 +91,7 @@ function Question() {
         title="นโยบายการยกเลิกคืออะไร?"
         isOpen={dropdownStates[0]}
         onClick={() => toggleDropdown(0)}
-        className="px-[3rem]"
+        className="px-[3rem] "
       >
         <FirstQuestion />
       </Dropdown>

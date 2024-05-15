@@ -26,10 +26,10 @@ export const RippleButton = ({ children, onClick, includedIcon }) => {
       style={{ zIndex: 0 }}
       className={
         isMobile
-          ? "w-fit ripple-button button-primary whitespace-nowrap px-[3rem] cursor-pointer items-center flex gap-2 justify-center text-white text-[18px] font-semibold p-3 rounded-full"
+          ? "w-fit ripple-button px-[2rem] shadow-2xl py-2 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center text-white text-[14px] font-medium p-3 rounded-full duration-500 hover:opacity-80"
           : isTablet
-          ? "w-[100px] ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center md:mt-[0rem] mt-[1rem] text-white text-[18px] font-semibold p-3 rounded-lg"
-          : "w-full ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center md:mt-[0rem] mt-[1rem] text-white text-[18px] font-semibold p-3 rounded-lg"
+          ? "w-[100px] ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center md:mt-[0rem] mt-[1rem] text-white text-[18px] font-semibold p-3 rounded-lg duration-500 hover:opacity-80"
+          : "w-full ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center md:mt-[0rem] mt-[1rem] text-white text-[18px] font-semibold p-3 rounded-lg duration-500 hover:opacity-80"
       }
       onClick={(e) => {
         const rect = e.target.getBoundingClientRect();

@@ -82,7 +82,11 @@ function Header() {
               className=""
               style={{ display: "none" }} // Hide the default checkbox
             />
-            <label htmlFor="same-location-checkbox" className="z-0">
+            <label
+              htmlFor="same-location-checkbox"
+              className="z-0"
+              style={{ paddingLeft: "2rem " }}
+            >
               ส่งรถคืนที่เดิม
             </label>
           </div>

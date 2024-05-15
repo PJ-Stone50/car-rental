@@ -8,14 +8,24 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
 export default function Home() {
+  const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
   return (
     <div className="w-screen h-screen ">
       <Navbar />
 
       <Header />
-      <Supplier />
-      <Question />
-      <PopularDestination />
+      <div
+        className={
+          isTablet
+            ? "flex flex-col px-[15%] duration-500"
+            : "flex flex-col px-[1.5rem] duration-500"
+        }
+      >
+        <Supplier />
+        <Question />
+        <PopularDestination />
+      </div>
 
       <Footer />
     </div>
