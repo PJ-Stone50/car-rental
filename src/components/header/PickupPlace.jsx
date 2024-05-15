@@ -42,8 +42,8 @@ const PickupPlace = ({ sameLocation, pickupLocation, setPickupLocation }) => {
               <div
                 className={
                   isMobile
-                    ? "absolute top-[30px] right-[130px] text-black opacity-60"
-                    : "absolute top-[30px] right-[30px] text-black opacity-60"
+                    ? "absolute top-[25px] right-[30px] text-black opacity-60"
+                    : "absolute top-[25px] right-[30px] text-black opacity-60"
                 }
                 style={{ zIndex: "2" }}
               >
