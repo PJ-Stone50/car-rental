@@ -4,11 +4,14 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 import { useMediaQuery } from "react-responsive";
+import { BsCalendar2Date } from "react-icons/bs";
 import "./datePicker.css";
+import { CalendarOutlined } from "@ant-design/icons";
 
 function DatePicker({ openDate, setOpenDate }) {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+  const isMobile2 = useMediaQuery({ query: "(min-width: 460px)" });
 
   const [date, setDate] = useState({
     startDate: new Date(),
@@ -28,7 +31,7 @@ function DatePicker({ openDate, setOpenDate }) {
     return format(currentTime, "HH:mm");
   });
 
-  const [endTime, setEndTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("18:00");
 
   // Function to handle change in select input
   const handleStartChange = (event) => {
@@ -173,9 +176,26 @@ function DatePicker({ openDate, setOpenDate }) {
           ? "containerDateRange gap-5"
           : "containerDateRange flex flex-col my-8 gap-3"
       }
+      style={{ zIndex: 2 }}
     >
-      <div className="flex w-full">
+      <div className="relative flex w-full">
+        <label
+          htmlFor=""
+          className="absolute top-[25px] right-[120px]"
+          style={{ zIndex: "2" }}
+        >
+          <CalendarOutlined
+            onClick={() => setOpenDate(!openDate)}
+            className={
+              isMobile2
+                ? "scale-[200%] opacity-60 duration-500"
+                : "scale-[150%] opacity-60 duration-500"
+            }
+          />
+        </label>
         <span
+          id="openStartDate"
+          name="openStartDate"
           style={{
             borderTopLeftRadius: "3px",
             borderBottomLeftRadius: "3px",
@@ -196,7 +216,7 @@ function DatePicker({ openDate, setOpenDate }) {
           )}
           <h1
             htmlFor=""
-            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
+            className="absolute top-4 font-normal text-[12px] left-5 opacity-80  text-[#424242]"
           >
             วันที่และเวลารับรถ
           </h1>
@@ -218,7 +238,22 @@ function DatePicker({ openDate, setOpenDate }) {
         </div>
       </div>
 
-      <div className="flex w-full justify-center">
+      <div className="relative flex w-full justify-center">
+        <div
+          className="absolute top-[25px] right-[120px]"
+          style={{ zIndex: "2" }}
+        >
+          <CalendarOutlined
+            onClick={() => setOpenDate(!openDate)}
+            className={
+              isMobile2
+                ? "scale-[200%] opacity-60 duration-500"
+                : "scale-[150%] opacity-60 duration-500"
+            }
+            width={100}
+            height={100}
+          />
+        </div>
         <span
           style={{
             borderTopLeftRadius: "3px",
@@ -239,8 +274,8 @@ function DatePicker({ openDate, setOpenDate }) {
             <p className="mb-[-.5rem] ">endDate</p>
           )}
           <label
-            htmlFor=""
-            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
+            htmlFor="openStartDate"
+            className="absolute top-4 text-[12px] font-normal left-5 opacity-80  text-[#424242]"
           >
             วันที่และเวลาคืนรถ
           </label>
@@ -269,8 +304,8 @@ function DatePicker({ openDate, setOpenDate }) {
             <DateRange
               className={
                 isTablet
-                  ? "absolute top-[115%] left-[35px]   scale-110 transition-[1s]"
-                  : "absolute top-[100%] left-[5%]    scale-110 transition-[1s]"
+                  ? "absolute top-[115%] left-[35px] z-[]  scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[5%]  z-[]  scale-110 transition-[1s]"
               }
               style={{ zIndex: 2 }}
               onChange={(ranges) => handleChange(ranges)}

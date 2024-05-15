@@ -13,6 +13,7 @@ function Navbar() {
   const [navbarHeight, setNavbarHeight] = useState(0);
   const [navbarWidth, setNavbarWidth] = useState(0);
   const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   const navigate = useNavigate();
   const [isFloating, setIsFloating] = useState(false);
@@ -41,14 +42,20 @@ function Navbar() {
 
   return (
     <>
-      <div className="container-nav">
+      <div
+        className={
+          isMobile
+            ? "container-nav px-[16rem] shadow-lg"
+            : "container-nav px-[3rem] shadow-lg"
+        }
+      >
         <nav
           id="navbar"
-          className={`navBar items-center py-5 shadow-lg flex gap-[1rem] transition-[0.5s] ${
+          className={`navBar  items-center py-3  flex gap-[1rem] transition-[0.5s] ${
             isTablet
               ? "pl-[3rem] bg-white justify-between pr-[3rem]"
               : "flex flex-col pb-[2rem] bg-white"
-          } ${isFloating ? "shadow-xl" : "shadow-xl"}`}
+          } `}
           style={{
             width: hamburgerMenu ? navbarWidth : "100%",
             height: `fit-content`,
@@ -64,7 +71,7 @@ function Navbar() {
             }
           >
             <Link to="/" className="w-fit h-fit flex">
-              <img src={Logo} alt="" />
+              <img src={Logo} alt="" className="min-w-[260px] min-h-[57px]" />
             </Link>
           </div>
 

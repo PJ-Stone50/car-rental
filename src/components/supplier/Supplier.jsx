@@ -27,7 +27,7 @@ function Supplier() {
     <div className={isTablet ? "container-tablet" : "container-mobile"}>
       <h1
         className={`text-[${
-          isMobile ? 32 : 28
+          isMobile ? 28 : 24
         }px] duration-500 text-[#424242] font-medium`}
       >
         ให้บริการโดยผู้ประกอบการชั้นนำ
@@ -44,7 +44,7 @@ function Supplier() {
             alt={`partner1`}
             className={
               isMobile
-                ? "rounded w-fit p-3 h-[100px] object-cover "
+                ? "rounded w-fit p-3 h-[80px] object-cover "
                 : "rounded w-fit p-3 h-fit object-cover "
             }
           />
@@ -59,7 +59,7 @@ function Supplier() {
             alt={`partner1`}
             className={
               isMobile
-                ? "rounded w-fit p-3 h-[100px] object-cover "
+                ? "rounded w-fit p-3 h-[80px] object-cover "
                 : "rounded w-fit p-3 h-fit object-cover "
             }
           />
@@ -74,7 +74,7 @@ function Supplier() {
             alt={`partner1`}
             className={
               isMobile
-                ? "rounded w-full p-3 h-[100px] object-cover "
+                ? "rounded w-full p-3 h-[80px] object-cover "
                 : "rounded w-fit p-3 h-full object-cover "
             }
           />
@@ -89,7 +89,7 @@ function Supplier() {
             alt={`partner1`}
             className={
               isMobile
-                ? "rounded w-full p-3 h-[100px] object-cover "
+                ? "rounded w-full p-3 h-[80px] object-cover "
                 : "rounded w-fit p-3 h-full object-cover "
             }
           />
@@ -120,7 +120,7 @@ function Supplier() {
             alt={`partner1`}
             className={
               isMobile
-                ? "rounded w-fit h-[100px] p-3 object-cover "
+                ? "rounded w-fit h-[80px] p-3 object-cover "
                 : "rounded w-fit h-fit p-3 object-cover "
             }
           />
@@ -135,7 +135,7 @@ function Supplier() {
             alt={`partner1`}
             className={
               isMobile
-                ? "rounded w-fit  h-[100px] p-3 object-cover "
+                ? "rounded w-fit  h-[80px] p-3 object-cover "
                 : "rounded w-fit  h-fit p-3 object-cover "
             }
           />

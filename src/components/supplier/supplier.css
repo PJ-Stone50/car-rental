@@ -2,14 +2,15 @@
   width: 100%;
   height: fit-content;
   padding-top: 3rem;
-  padding-bottom: 3rem;
-  padding-left: 6.5rem;
-  padding-right: 6.5rem;
+
+  /* padding-left: 16rem; */
+  /* padding-right: 16rem; */
   background-color: white;
   display: flex;
   flex-direction: column;
   gap: 5;
   transition-duration: 1000ms;
+  z-index: 1;
 }
 
 .container-mobile {
