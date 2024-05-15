@@ -1,0 +1,12 @@
+.custom-dropdown .ant-select-selector:focus {
+  border-color: orange !important;
+  padding: 5rem;
+}
+
+.ant-select::selection {
+  border: red;
+  /* border: solid 0.5px rgb(230, 169, 4); */
+  /* columns: red; */
+  /* border-radius: 15%; */
+  padding: 3rem;
+}

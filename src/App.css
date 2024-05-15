@@ -1,122 +1,9 @@
 * {
-  font-family: "Bai Jamjuree", sans-serif;
-}
-
-/* Custom Checkbox Styles */
-.custom-checkbox {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.custom-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.custom-checkbox label {
-  position: relative;
-  cursor: pointer;
-  padding-left: 25px;
-  color: black;
-}
-
-.custom-checkbox label:before,
-.custom-checkbox label:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  transition: all 0.3s ease;
-}
-
-.custom-checkbox label:before {
-  width: 22px;
-  height: 22px;
-  background-color: white;
-  border: 2px solid #ffa500; /* Orange border */
-  border-radius: 3px;
-}
-
-.custom-checkbox label:after {
-  width: 6px;
-  height: 15px;
-  border: solid #ffa500; /* Orange tick */
-  border-width: 0 2px 2px 0;
-  top: 3px;
-  left: 8px;
-  transform: scale(0) rotate(45deg);
-}
-
-.custom-checkbox input[type="checkbox"]:checked + label:before {
-  background-color: #ffffff; /* Keep background white when checked */
-  border-color: #ffa500; /* Keep border orange when checked */
-}
-
-.custom-checkbox input[type="checkbox"]:checked + label:after {
-  transform: scale(1) rotate(45deg); /* Display the tick when checked */
-}
-
-/* ----------------------------------------------------- */
-
-/* Navbar Shadow */
-
-#container-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200%;
-}
-
-#navBar {
-  position: fixed;
-  width: 100vw;
-  height: 50px;
-  background-color: #dedede;
-  transition: 0.2s;
-  display: flex;
-}
-
-.floatingNav {
-  width: calc(100vh - 100px);
-  border-radius: 2px;
-  box-shadow: 0px 1px 10px red;
-}
-
-/* -------------------------------------------- */
-
-.ant-calendar-picker-input.ant-input {
-  /* align-items: center; */
-  /* text-align: center; */
+  font-family: "Kanit", sans-serif;
 }
 
 .ant-picker-dropdown {
   width: fit-content;
-  /* position: absolute; */
-  /* top: 0; */
-  /* right: 3rem; */
-}
-
-.ant-picker-panel-container {
-  /* margin-left: -60px; */
-}
-
-.containerDateRange {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  position: relative;
-}
-
-.calendar {
-  padding: 20px;
-  border: 2px solid gray;
-  cursor: pointer;
-}
-
-.dateRange {
-  position: absolute;
-  top: 120px;
 }
 
 .transition-height {
@@ -133,55 +20,6 @@
   transition: 1s;
   z-index: 100;
 }
-
-.click-btn {
-  display: flex;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  margin: 0.5rem;
-  line-height: 35px;
-  border: 1px solid;
-  /* border-radius: $border-radius; */
-  text-align: center;
-  font-size: 16px;
-  color: #000;
-  text-decoration: none;
-  transition: all 0.35s;
-  box-sizing: border-box;
-}
-
-/* Media query for tablet */
-@media (min-width: 768px) and (max-width: 1240px) {
-  .click-btn {
-    width: 33.33%;
-  }
-}
-
-/* Media query for mobile */
-@media (max-width: 767px) {
-  .click-btn {
-    width: 100%;
-  }
-}
-
-.buttons-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-/* .btn-style501 {
-  $btn-color: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 51%, #a1c4fd 100%);
-  background-image: $btn-color;
-  background-size: 200% auto;
-  background-position: left top;
-  border-color: transparent;
-  color: #464646;
-  &:hover {
-    background-position: right bottom;
-    color: #000;
-  }
-} */
 
 .ripple-button {
   border-radius: 4px;
@@ -229,4 +67,17 @@
 .ripple-button > .content {
   position: relative;
   z-index: 2;
+}
+
+span.rdrInRange {
+  background: orange;
+}
+
+span.rdrStartEdge,
+span.rdrEndEdge {
+  background: orange;
+}
+
+.ant-select {
+  width: fit-content;
 }

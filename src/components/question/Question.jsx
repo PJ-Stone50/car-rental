@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useMediaQuery } from "react-responsive";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FirstQuestion from "./FirstQuestion";
 import SecondQuestion from "./SecondQuestion";
 import ThirdQuestion from "./ThirdQuestion";
 import FouthQuestion from "./FouthQuestion";
-import { RippleButton } from "../navbar/RippleButton";
+import { RippleButton } from "../navbar/ripple/RippleButton";
+import { useMediaQuery } from "react-responsive";
 
 function Dropdown({ title, children, isOpen, onClick }) {
+  const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
+  const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+
   const contentRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(0);
 
@@ -38,7 +41,15 @@ function Dropdown({ title, children, isOpen, onClick }) {
           />
         )}
 
-        <h1 className="text-[22px] font-semibold p-[1.5rem] ">{title}</h1>
+        <h1
+          className={
+            isMobile
+              ? "text-[24px] text-black font-medium p-[1.5rem] duration-500"
+              : "text-[20px] text-black font-medium p-[1.5rem] duration-500"
+          }
+        >
+          {title}
+        </h1>
       </div>
       <div
         ref={contentRef}
@@ -52,7 +63,7 @@ function Dropdown({ title, children, isOpen, onClick }) {
 }
 
 function Question() {
-  const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   const [dropdownStates, setDropdownStates] = useState([
@@ -70,14 +81,8 @@ function Question() {
   };
 
   return (
-    <div
-      className={
-        isMobile
-          ? "w-full h-fit py-[3rem] bg-white px-[5rem] pt-[3rem] flex flex-col"
-          : "w-full h-fit  px-5  bg-white pb-[3rem] flex flex-col"
-      }
-    >
-      <h1 className="text-[28px] text-[#424242] font-semibold pb-[1.5rem]">
+    <div className={isTablet ? "tablet" : "labtop"}>
+      <h1 className="text-[28px] text-[#424242] font-medium pb-[1.5rem]">
         คำถามที่พบบ่อย
       </h1>
 

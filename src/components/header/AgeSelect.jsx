@@ -1,4 +1,5 @@
 import { Select } from "antd";
+import "../header/ageSelect.css";
 
 const { Option } = Select;
 const AgeSelect = () => {
@@ -19,14 +20,17 @@ const AgeSelect = () => {
   }
 
   return (
-    <Select
-      defaultValue="21-65 ปี" // Set defaultValue to "ABC"
-      style={{ width: 120 }}
-      onChange={(value) => console.log(value)}
-      className="text-center"
-    >
-      {options}
-    </Select>
+    <div className="testContainer">
+      <Select
+        defaultValue="21-65 ปี"
+        style={{ width: "fit-content" }}
+        onChange={(value) => console.log(value)}
+        className="custom-dropdown text-center z-0 p-0 m-0 w-fit"
+      >
+        {options}
+        {/* <p className="test">TEST</p> */}
+      </Select>
+    </div>
   );
 };
 export default AgeSelect;

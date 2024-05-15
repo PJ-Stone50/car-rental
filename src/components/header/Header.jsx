@@ -7,7 +7,11 @@ import AgeSelect from "../../components/header/AgeSelect";
 import DatePicker from "../../components/header/DatePicker";
 
 import CustomTooltip from "../../components/CustomTooltip";
-import { RippleButton } from "../../components/navbar/RippleButton";
+import { RippleButton } from "../../components/navbar/ripple/RippleButton";
+
+import PickupPlace from "./PickupPlace";
+import ReturnPlace from "./ReturnPlace";
+import "./header.css";
 
 const text = <></>;
 
@@ -24,9 +28,11 @@ function Header() {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
+  const [openDate, setOpenDate] = useState(false);
   const [pickupLocation, setPickupLocation] = useState("");
   const [returnLocation, setReturnLocation] = useState("");
   const [sameLocation, setSameLocation] = useState(true);
+  const [includedIcon, setIncludedIcon] = useState(true);
 
   const toggleSameLocation = () => {
     console.log("SameLocation", sameLocation);
@@ -38,7 +44,7 @@ function Header() {
   };
 
   return (
-    <div className="relative w-full h-fit   flex justify-center ">
+    <div className="relative w-full h-fit flex justify-center">
       <div
         style={{
           backgroundImage: `url(${HomeBackground})`,
@@ -56,15 +62,15 @@ function Header() {
         <div
           className={
             isTablet
-              ? "w-fit h-fit mx-[5rem] flex gap-3 bg-white   rounded  px-5   pb-[5rem]  absolute top-[20%] p-4 shadow-lg z-10"
-              : "w-full h-fit  mx-[5rem] flex flex-col bg-white  rounded gap-3  px-5     p-4 shadow-lg z-10"
+              ? "contentContainer w-fit h-fit mx-[5rem] flex gap-3 bg-white rounded px-5 pb-[5rem] absolute top-[20%] p-4 shadow-lg z-10"
+              : "contentContainer w-full h-fit mx-[10rem] flex flex-col bg-white rounded gap-3 px-5 p-4 shadow-lg z-10"
           }
         >
           <div
             className={
               isTablet
-                ? "custom-checkbox  items-center flex justify-center absolute bottom-[25px] "
-                : "custom-checkbox   "
+                ? "custom-checkbox items-center flex justify-center absolute bottom-[25px] z-10"
+                : "custom-checkbox"
             }
           >
             <input
@@ -73,10 +79,10 @@ function Header() {
               id="same-location-checkbox"
               checked={sameLocation}
               onChange={toggleSameLocation}
-              className="mr-2 "
+              className=""
               style={{ display: "none" }} // Hide the default checkbox
             />
-            <label htmlFor="same-location-checkbox" className="z-10">
+            <label htmlFor="same-location-checkbox" className="z-0">
               ส่งรถคืนที่เดิม
             </label>
           </div>
@@ -84,107 +90,78 @@ function Header() {
           <div
             className={
               isMobile
-                ? "w-full flex gap-3 items-center"
-                : "flex flex-col gap-3"
+                ? "w-full flex gap-3 items-center pb-[2rem] md:pb-0 xl:pb-0"
+                : "flex flex-col gap-3 "
+            }
+          >
+            <PickupPlace
+              sameLocation={sameLocation}
+              pickupLocation={pickupLocation}
+              setPickupLocation={setPickupLocation}
+            />
+            {!sameLocation && (
+              <ReturnPlace
+                sameLocation={sameLocation}
+                pickupLocation={pickupLocation}
+              />
+            )}
+          </div>
+          <div
+            className={
+              isTablet
+                ? "container-date items-center w-full h-full z-10"
+                : "container-date items-center w-full h-full"
+            }
+          >
+            <DatePicker
+              openDate={openDate}
+              setOpenDate={setOpenDate}
+              className="p-5"
+            />
+          </div>
+          <div
+            className={
+              isTablet
+                ? "items-center flex justify-between absolute bottom-[12px] w-[97%] "
+                : "md:flex justify-between items-center py-[.5rem] w-full"
             }
           >
             <div
               className={
                 isTablet
-                  ? "w-full h-fit whitespace-nowrap cursor-pointer flex flex-col rounded bg-[#F3F6F9] py-3 px-2 pr-[10rem] border-[1.5px] border-[#E0E3E7]"
-                  : "w-full h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+                  ? "w-full flex items-center justify-center pt-[.75rem] gap-1 whitespace-nowrap text-[#424242]"
+                  : "w-full flex items-center justify-start pt-[.75rem] gap-1 whitespace-nowrap text-[#424242]"
               }
             >
-              {sameLocation ? (
-                <h1 className="text-[14px] text-[#424242]">
-                  สถานที่รับและคืนรถ
-                </h1>
-              ) : (
-                <h1 className="opacity-80">สถานที่รับรถ</h1>
-              )}
-              {pickupLocation ? (
-                <h1>{pickupLocation}</h1>
-              ) : (
-                <h1 className="text-[20px] font-semibold">
-                  {sameLocation ? "สถานที่รับและคืนรถ" : "สถานที่รับรถ"}
-                </h1>
-              )}
-            </div>
-
-            <div className={sameLocation ? "hidden" : "return w-full"}>
-              {!sameLocation && (
-                <div
-                  className={
-                    isTablet
-                      ? "w-full mr-[6rem] h-fit whitespace-nowrap cursor-pointer pr-[5rem] flex flex-col rounded bg-[#F3F6F9] py-3 px-2 border-[1.5px] border-[#E0E3E7]"
-                      : "w-full  h-fit whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
-                  }
-                >
-                  <h1 className="opacity-80 ">สถานที่คืนรถ</h1>
-
-                  {returnLocation ? (
-                    <h1>{returnLocation}</h1>
-                  ) : (
-                    <h1 className="text-[20px] font-semibold">สถานที่คืนรถ</h1>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          <div
-            className={
-              isTablet
-                ? "container-date items-center mt-[.25rem] w-full h-full "
-                : "container-date items-center  w-full h-full"
-            }
-          >
-            <DatePicker className="p-5 " />
-          </div>
-          <div
-            className={
-              isTablet
-                ? "  items-center flex justify-between  absolute bottom-[12px] w-[95%]   "
-                : " md:flex justify-start  items-center py-[.5rem]  w-full "
-            }
-          >
-            <div
-              className={
-                isTablet
-                  ? "flex gap-2 w-full ml-[20rem] pr-[1rem] whitespace-nowrap items-center text-[16px] font-normal text-[#424242]"
-                  : "flex gap-2 w-fit text-[13px] pr-[1rem] whitespace-nowrap items-center  font-normal text-[#424242]  "
-              }
-              // style={{ fontSize: "1.5vw" }}
-            >
-              <p className="">อายุของผู้ขับขี่</p>
-              <CustomTooltip title={text} content={content}>
-                <FaCircleInfo className="min-w-[15px] min-h-[15px] cursor-pointer" />
+              <p className="" style={{}}>
+                อายุของผู้ขับขี่
+              </p>
+              <CustomTooltip
+                openDate={openDate}
+                setOpenDate={setOpenDate}
+                title={text}
+                content={content}
+              >
+                <FaCircleInfo
+                  // style={{ zIndex: "-1" }}
+                  className="min-w-[15px] min-h-[15px] cursor-pointer"
+                />
+                {/* <h1>Info</h1> */}
               </CustomTooltip>
-
               <p>อยู่ระหว่าง</p>
               <AgeSelect />
             </div>
 
-            {/* <button
-          htmlFor=""
-          className={
-            isTablet
-              ? "w-fit px-[3rem] cursor-pointer items-center flex gap-2 justify-center   whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-full"
-              : "w-full cursor-pointer items-center flex gap-2 justify-center  md:mt-[0rem] mt-[1rem]   whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-lg"
-          }
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(254,84,28,1) 0%, rgba(239,55,68,1) 100%)",
-          }}
-        >
-          <FaSearch className="w-[25px] h-[25px]" />
-          Search
-        </button> */}
-            <RippleButton className="w-full">Search</RippleButton>
+            <RippleButton
+              includedIcon={includedIcon}
+              style={{ display: "flex" }}
+              className="flex "
+            >
+              Search
+            </RippleButton>
           </div>
         </div>
       </div>
-
-      {/* <DatePickerAntDesign /> */}
     </div>
   );
 }

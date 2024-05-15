@@ -1,87 +1,156 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import Partner1 from "../../../public/images/suppliers/partner-1.jpg";
-import Partner2 from "../../../public/images/suppliers/partner-3.jpg";
-import Partner3 from "../../../public/images/suppliers/partner-4.jpg";
-import Partner4 from "../../../public/images/suppliers/partner-5.png";
-import Partner5 from "../../../public/images/suppliers/partner-6.jpg";
-import Partner6 from "../../../public/images/suppliers/partner-7.jpg";
-import Partner7 from "../../../public/images/suppliers/partner-8.png";
-
-const suppliers = [
-  Partner1,
-  Partner2,
-  Partner3,
-  Partner4,
-  Partner5,
-  Partner6,
-  Partner7,
-];
+import Partner2 from "../../../public/images/suppliers/partner-2.png";
+import Partner3 from "../../../public/images/suppliers/partner-3.jpg";
+import Partner4 from "../../../public/images/suppliers/drive1.png";
+import Partner5 from "../../../public/images/suppliers/partner-5.jpg";
+import Partner6 from "../../../public/images/suppliers/partner-6.jpg";
+import Partner7 from "../../../public/images/suppliers/partner-7.jpg";
+import "./supplier.css";
+// const suppliers = [
+//   Partner1,
+//   Partner2,
+//   Partner3,
+//   Partner4,
+//   Partner5,
+//   Partner6,
+//   Partner7,
+// ];
+const suppliers = [Partner1];
 
 function Supplier() {
-  const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 1080px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
-    <div
-      className={
-        isMobile
-          ? "w-full h-fit py-[3rem] bg-white px-[5rem] pt-[3rem] flex flex-col gap-5"
-          : "w-full h-fit pt-[3rem] px-5  bg-white flex flex-col gap-2"
-      }
-    >
-      {isMobile ? (
-        <h1 className="text-[32px] duration-500 text-[#424242] font-semibold">
-          ให้บริการโดยผู้ประกอบการชั้นนำ
-        </h1>
-      ) : (
-        <>
-          <h1 className="text-[28px] duration-500 text-[#424242]  font-semibold">
-            ให้บริการโดยผู้ประกอบการชั้นนำ
-          </h1>
-          {/* <h1 className="text-[32px] pl-[2rem] text-[#424242] font-semibold">
-            ผู้ประกอบการชั้นนำ
-          </h1> */}
-        </>
-      )}
-      <div
-        className={
-          isTablet
-            ? "w-full h-full flex    gap-5"
-            : "w-full h-full bg-white grid grid-cols-3 md:grid-cols-4 gap-5 pb-[3rem]"
-        }
+    <div className={isTablet ? "container-tablet" : "container-mobile"}>
+      <h1
+        className={`text-[${
+          isMobile ? 32 : 28
+        }px] duration-500 text-[#424242] font-medium`}
       >
-        {suppliers.map((element, index) => (
-          <div
-            key={index}
+        ให้บริการโดยผู้ประกอบการชั้นนำ
+      </h1>
+
+      <div className={isTablet ? "content-tablet" : "content-mobile"}>
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner1}
+            alt={`partner1`}
             className={
               isMobile
-                ? "w-full h-[100px] ml-auto mr-auto block shadow-lg rounded items-center  bg-white"
-                : " w-full h-full shadow-lg rounded items-center flex justify-center bg-white"
+                ? "rounded w-fit p-3 h-[100px] object-cover "
+                : "rounded w-fit p-3 h-fit object-cover "
             }
-          >
-            <img
-              src={element}
-              alt={`partner${index}`}
-              className={
-                isMobile
-                  ? "rounded w-full h-full object-cover "
-                  : "rounded w-full h-full object-cover "
-              }
-            />
-          </div>
-        ))}
+          />
+        </div>
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner2}
+            alt={`partner1`}
+            className={
+              isMobile
+                ? "rounded w-fit p-3 h-[100px] object-cover "
+                : "rounded w-fit p-3 h-fit object-cover "
+            }
+          />
+        </div>
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner3}
+            alt={`partner1`}
+            className={
+              isMobile
+                ? "rounded w-full p-3 h-[100px] object-cover "
+                : "rounded w-fit p-3 h-full object-cover "
+            }
+          />
+        </div>
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner4}
+            alt={`partner1`}
+            className={
+              isMobile
+                ? "rounded w-full p-3 h-[100px] object-cover "
+                : "rounded w-fit p-3 h-full object-cover "
+            }
+          />
+        </div>
 
-        {/* <div className="w-full h-full items-center flex justify-center bg-green-200">
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner5}
+            alt={`partner1`}
+            className={
+              isMobile
+                ? "rounded w-fit  p-3 object-cover "
+                : "rounded w-fit h-fit p-3 object-cover "
+            }
+          />
+        </div>
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner6}
+            alt={`partner1`}
+            className={
+              isMobile
+                ? "rounded w-fit h-[100px] p-3 object-cover "
+                : "rounded w-fit h-fit p-3 object-cover "
+            }
+          />
+        </div>
+        <div
+          className={
+            isMobile ? "img-container-tablet " : "img-container-mobile "
+          }
+        >
+          <img
+            src={Partner7}
+            alt={`partner1`}
+            className={
+              isMobile
+                ? "rounded w-fit  h-[100px] p-3 object-cover "
+                : "rounded w-fit  h-fit p-3 object-cover "
+            }
+          />
+        </div>
+
+        {/* <div className="w-full h-full items-center flex justify-center bg-white">
           <img src={Partner1} alt="partner1" className="rounded" />
         </div>
-        <div className="w-full h-full items-center flex justify-center bg-green-200">
+        <div className="w-full h-full items-center flex justify-center bg-white">
           <img src={Partner1} alt="partner1" className="rounded" />
         </div>
-        <div className="w-full h-full items-center flex justify-center bg-green-200">
+        <div className="w-full h-full items-center flex justify-center bg-white">
           <img src={Partner1} alt="partner1" className="rounded" />
         </div>
-        <div className="w-full h-full items-center flex justify-center bg-green-200">
+        <div className="w-full h-full items-center flex justify-center bg-white">
           <img src={Partner1} alt="partner1" className="rounded" />
         </div> */}
       </div>

@@ -1,56 +1,141 @@
 import { useState, useRef, useEffect } from "react";
-import { DateRangePicker, DateRange } from "react-date-range";
+import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 import { useMediaQuery } from "react-responsive";
-import { RiH1 } from "react-icons/ri";
+import "./datePicker.css";
 
-function DatePicker() {
-  const isTablet = useMediaQuery({ query: "(min-width: 1260px)" });
+function DatePicker({ openDate, setOpenDate }) {
+  const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
-  const smallDevice = window.matchMedia("(max-width: 400px)").matches;
-  // const orientation = smallDevice
-  //   ? VERTICAL_ORIENTATION
-  //   : HORIZONTAL_ORIENTATION;
-
-  const [openDate, setOpenDate] = useState(false);
   const [date, setDate] = useState({
     startDate: new Date(),
-    endDate: null,
+    endDate: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000), // Set endDate to 2 days after startDate
     key: "selection",
   });
 
   // Initialize state for selected time
-  const [startTime, setStartTime] = useState("00:00");
+  const [startTime, setStartTime] = useState(() => {
+    // Get current time
+    const currentTime = new Date();
+    // Round the minutes up to the nearest 30 minutes
+    const roundedMinutes = Math.ceil(currentTime.getMinutes() / 30) * 30;
+    // Set the minutes to the rounded minutes
+    currentTime.setMinutes(roundedMinutes);
+    // Return formatted time
+    return format(currentTime, "HH:mm");
+  });
+
   const [endTime, setEndTime] = useState("00:00");
 
   // Function to handle change in select input
   const handleStartChange = (event) => {
-    setStartTime(event.target.value);
-  };
-  // Function to handle change in select input
-  const handleEndChange = (event) => {
-    setEndTime(event.target.value);
+    const selectedTime = event.target.value;
+    const [selectedHour, selectedMinute] = selectedTime.split(":").map(Number);
+
+    // Calculate the nearest 30-minute interval
+    let newHour = selectedHour;
+    let newMinute = selectedMinute >= 30 ? 30 : 0;
+
+    // If the selected minute is 30, don't increment the hour
+    if (selectedMinute === 30) {
+      newMinute = 30;
+    } else if (selectedMinute > 30) {
+      // If the selected minute is greater than 30, set the minute to 0 and increment hour by 1
+      newMinute = 0;
+      newHour++;
+    }
+
+    // Update the startTime state with the calculated time
+    const newTime = `${newHour.toString().padStart(2, "0")}:${newMinute
+      .toString()
+      .padStart(2, "0")}`;
+    setStartTime(newTime);
   };
 
-  // Generate options for select input
-  const generateOptions = () => {
+  const generateOptionsStartTime = () => {
     const options = [];
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+
+    // Get the start date from the state
+    const selectedStartDate = date.startDate;
+
+    // Calculate the current hour and minute
     for (let hour = 0; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
         const timeString = `${hour.toString().padStart(2, "0")}:${minute
           .toString()
           .padStart(2, "0")}`;
-        options.push(
-          <option key={timeString} value={timeString}>
-            {timeString}
-          </option>
-        );
+
+        // Check if the selected start date is today
+        const isToday = selectedStartDate.getDate() === currentDate.getDate();
+
+        // Disable times from 0:00 to 05:30
+        if (
+          hour < 5 ||
+          (hour === 5 && minute <= 30) ||
+          (isToday &&
+            (hour < currentHour ||
+              (hour === currentHour && minute <= currentMinute)))
+        ) {
+          options.push(
+            <option key={timeString} value={timeString} disabled>
+              {timeString}
+            </option>
+          );
+        } else {
+          // Allow selecting other times
+          options.push(
+            <option key={timeString} value={timeString}>
+              {timeString}
+            </option>
+          );
+        }
       }
     }
     return options;
+  };
+
+  // Function to generate options for end time selection
+  const generateOptionsEndTime = () => {
+    const options = [];
+
+    // Calculate options for each hour and minute
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const timeString = `${hour.toString().padStart(2, "0")}:${minute
+          .toString()
+          .padStart(2, "0")}`;
+
+        // Disable times from 0:00 to 6:00
+        if (hour < 6 || (hour === 6 && minute === 0)) {
+          options.push(
+            <option key={timeString} value={timeString} disabled>
+              {timeString}
+            </option>
+          );
+        } else {
+          // Allow selecting other times
+          options.push(
+            <option key={timeString} value={timeString}>
+              {timeString}
+            </option>
+          );
+        }
+      }
+    }
+
+    return options;
+  };
+
+  // Function to handle change in select input for endTime
+  const handleEndChange = (event) => {
+    const selectedEndTime = event.target.value;
+    setEndTime(selectedEndTime);
   };
 
   const handleChange = (ranges) => {
@@ -59,23 +144,27 @@ function DatePicker() {
 
   const dateRangeRef = useRef(null);
 
+  // useEffect hook to handle click events outside the dateRangeRef element
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Check if dateRangeRef exists and if the clicked element is outside it
       if (
         dateRangeRef.current &&
         !dateRangeRef.current.contains(event.target)
       ) {
+        // If clicked outside, set openDate state to false
         setOpenDate(false);
       }
     };
 
+    // Add event listener for mouse clicks on the document
     document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up: remove event listener when component unmounts or dependencies change
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-
-    console.log("Status", openDate);
-  }, []);
+  }, []); // Empty dependency array ensures useEffect only runs on mount
 
   return (
     <div
@@ -87,84 +176,103 @@ function DatePicker() {
     >
       <div className="flex w-full">
         <span
+          style={{
+            borderTopLeftRadius: "3px",
+            borderBottomLeftRadius: "3px",
+          }}
           className={
             isMobile
-              ? "calendar rounded pr-[8rem] pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
-              : "calendar rounded  pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+              ? "calendar w-full  max-h-[78px]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-medium  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9] z-0   border-[1.5px] border-[#E0E3E7]"
+              : "calendar w-full  h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-medium cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] z-0 border-[#E0E3E7]"
           }
           onClick={() => setOpenDate(!openDate)}
         >
           {date.startDate ? (
-            date.startDate && format(date.startDate, "MMM, dd, yyyy")
+            <p className="mb-[-.5rem] text-[18px]">
+              {date.startDate && format(date.startDate, "MMM, dd, yyyy")}
+            </p>
           ) : (
-            <h1>startDate</h1>
+            <p className="mb-[-.5rem] ">startDate</p>
           )}
           <h1
             htmlFor=""
-            className="absolute top-3 left-5 font-normal text-[14px] text-[#424242]"
+            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
           >
             วันที่และเวลารับรถ
           </h1>
         </span>
         {/* TimeSelect */}
         <div>
-          {/* <label htmlFor="timeSelect">Select Time:</label> */}
           <select
-            id="timeSelect"
+            id="timeSelectStart"
             value={startTime}
             onChange={handleStartChange}
-            className=" whitespace-nowrap cursor-pointer w-fit  h-[78px] text-center items-center border-l-[0px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            className="whitespace-nowrap cursor-pointer  w-fit px-3 h-[78px]  text-center items-center border-l-[1px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            style={{
+              borderTopRightRadius: "5%",
+              borderBottomRightRadius: "5%",
+            }}
           >
-            {generateOptions()}
+            {generateOptionsStartTime()}
           </select>
-          {/* <p>Selected Time: {selectedTime}</p> */}
         </div>
       </div>
 
-      <div className="flex w-full">
+      <div className="flex w-full justify-center">
         <span
+          style={{
+            borderTopLeftRadius: "3px",
+            borderBottomLeftRadius: "3px",
+          }}
           className={
             isMobile
-              ? "calendar pr-[8rem] pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
-              : "calendar  pt-[2rem] relative whitespace-nowrap border-r-[0px] font-bold w-full h-fit cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  justify-center  border-[1.5px] border-[#E0E3E7]"
+              ? "calendar w-full max-h-[78px]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-medium  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]    border-[1.5px] border-[#E0E3E7]"
+              : "calendar w-full h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-medium cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
           }
           onClick={() => setOpenDate(!openDate)}
         >
           {date.endDate ? (
-            date.endDate && format(date.endDate, "MMM, dd, yyyy")
+            <p className="mb-[-.5rem] text-[18px]">
+              {date.endDate && format(date.endDate, "MMM, dd, yyyy")}
+            </p>
           ) : (
-            <h1>endDate</h1>
+            <p className="mb-[-.5rem] ">endDate</p>
           )}
           <label
             htmlFor=""
-            className="absolute top-3 left-5 font-normal text-[#424242]"
+            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
           >
             วันที่และเวลาคืนรถ
           </label>
         </span>
         {/* TimeSelect */}
-        <div>
+        <div className="">
           {/* <label htmlFor="timeSelect">Select Time:</label> */}
           <select
-            id="timeSelect"
+            id="timeSelectEnd"
             value={endTime}
             onChange={handleEndChange}
-            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] border-l-[0px] text-center items-center  bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] border-l-[1px] text-center items-center  bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            style={{
+              borderTopRightRadius: "5%",
+              borderBottomRightRadius: "5%",
+            }}
           >
-            {generateOptions()}
+            {generateOptionsEndTime()}
           </select>
           {/* <p>Selected Time: {selectedTime}</p> */}
         </div>
       </div>
       {openDate && (
-        <div ref={dateRangeRef}>
+        <div ref={dateRangeRef} style={{ background: "green", zIndex: 2 }}>
           {isMobile ? (
             <DateRange
               className={
                 isTablet
-                  ? "absolute top-[100%] left-[-200px] bg-white z-10 scale-110 transition-[1s]"
-                  : "absolute top-[100%] left-[0px] bg-white  z-10 scale-60 transition-[1s]"
+                  ? "absolute top-[115%] left-[35px]   scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[5%]    scale-110 transition-[1s]"
               }
+              style={{ zIndex: 2 }}
               onChange={(ranges) => handleChange(ranges)}
               showSelectionPreview={true}
               moveRangeOnFirstSelection={false}
@@ -175,19 +283,15 @@ function DatePicker() {
             />
           ) : (
             <DateRange
-              className={
-                isMobile
-                  ? "absolute top-[10px] left-[10px] z-10 bg-white"
-                  : "absolute top-[100%] flex flex-col left-[-50px] z-10 bg-white"
-              }
-              withPortal={window.matchMedia("(max-width: 400px)").matches}
+              editableDateInputs={true}
               onChange={(ranges) => handleChange(ranges)}
-              showSelectionPreview={true}
               moveRangeOnFirstSelection={false}
+              ranges={[date]}
+              showSelectionPreview={true}
               months={2}
-              ranges={[date]} // Pass date directly instead of wrapping it in an array
-              direction="horizontal"
-              minDate={new Date()} // Set minDate to the current date to disable past dates
+              direction="vertical"
+              minDate={new Date()}
+              className="centered-component "
             />
           )}
         </div>

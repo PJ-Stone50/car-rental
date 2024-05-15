@@ -1,8 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { useMediaQuery } from "react-responsive";
+import { IoSearch } from "react-icons/io5";
 
-export const RippleButton = ({ children, onClick }) => {
+export const RippleButton = ({ children, onClick, includedIcon }) => {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
@@ -22,12 +23,14 @@ export const RippleButton = ({ children, onClick }) => {
 
   return (
     <button
+      style={{ zIndex: 0 }}
       className={
-        isTablet
-          ? "w-fit ripple-button button-primary whitespace-nowrap px-[3rem] cursor-pointer items-center flex gap-2 justify-center    text-white text-[18px] font-semibold p-3 rounded-full"
-          : "w-full ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center  md:mt-[0rem] mt-[1rem]    text-white text-[18px] font-semibold p-3 rounded-lg"
+        isMobile
+          ? "w-fit ripple-button button-primary whitespace-nowrap px-[3rem] cursor-pointer items-center flex gap-2 justify-center text-white text-[18px] font-semibold p-3 rounded-full"
+          : isTablet
+          ? "w-[100px] ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center md:mt-[0rem] mt-[1rem] text-white text-[18px] font-semibold p-3 rounded-lg"
+          : "w-full ripple-button ml-0 button-primary whitespace-nowrap cursor-pointer items-center flex gap-2 justify-center md:mt-[0rem] mt-[1rem] text-white text-[18px] font-semibold p-3 rounded-lg"
       }
-      // className="ripple-button cursor-pointer button-primary whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-full px-[2rem] flex justify-center"
       onClick={(e) => {
         const rect = e.target.getBoundingClientRect();
         setCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top });
@@ -45,10 +48,16 @@ export const RippleButton = ({ children, onClick }) => {
       ) : (
         ""
       )}
-      <span className="content">{children}</span>
+      {includedIcon && (
+        <IoSearch
+          style={{ zIndex: 100 }}
+          className="min-w-[30px] min-h-[30px]"
+        />
+      )}
+
+      <span className="content z-[-1]">{children}</span>
     </button>
   );
 };
 
-// Create or get the root
-const root = createRoot(document.getElementById("root"));
+export default RippleButton;
