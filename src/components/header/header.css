@@ -1,0 +1,60 @@
+/* Custom Checkbox Styles */
+.custom-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 25px;
+  color: #424242;
+}
+
+.custom-checkbox label:before,
+.custom-checkbox label:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.3s ease;
+}
+
+.custom-checkbox label:before {
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border: 2px solid #ffa500; /* Orange border */
+  border-radius: 3px;
+}
+
+.custom-checkbox label:after {
+  width: 6px;
+  height: 15px;
+  border: solid #fff; /* Orange tick */
+  border-width: 0 2px 2px 0;
+  top: 3px;
+  left: 8px;
+  transform: scale(0) rotate(45deg);
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label:before {
+  background-color: #ffa500; /* Keep background white when checked */
+  border-color: #ffa500; /* Keep border orange when checked */
+}
+
+.custom-checkbox input[type="checkbox"]:checked + label:after {
+  transform: scale(1) rotate(45deg); /* Display the tick when checked */
+}
+
+@media (max-width: 1080px) {
+  .contentContainer {
+    /* background: red; */
+    margin: 0 !important;
+    transition: 1s ease-in-out;
+  }
+}

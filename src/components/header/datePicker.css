@@ -1,3 +1,22 @@
+.containerDateRange {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  position: relative;
+}
+
+.calendar {
+  padding: 20px;
+  border: 2px solid gray;
+  cursor: pointer;
+}
+
+.dateRange {
+  position: absolute;
+  top: 120px;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -11,9 +30,40 @@
   padding: 20px;
   border: 2px solid gray;
   cursor: pointer;
+  background: green;
 }
 
 .dateRange {
   position: absolute;
   top: 120px;
+  background: red;
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust height as needed */
+  position: relative;
+}
+
+.centered-component {
+  position: absolute;
+  top: 410px;
+  left: 58%;
+  transform: translate(-50%, -50%);
+
+  padding: 20px;
+  transition: 1s;
+}
+
+@media (max-width: 767px) {
+  .rdrMonth {
+    width: 100%;
+  }
+
+  .centered-component {
+    scale: 120%;
+    transition: 1s;
+  }
 }

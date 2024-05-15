@@ -5,13 +5,8 @@ import Logo from "../../../public/images/icons/logo-talren.png";
 
 import LanguagePicker from "./LanguagePicker";
 import Menu from "./Menu";
-// import Btn from "./RippleButton.jsx"; // Import Btn component
-// import "../../components/navbar/BtnMe";
-// import Button from "./RippleButton.jsx";
-// import Ripple from "./Ripple.jsx";
-import { RippleButton } from "./RippleButton";
 
-const text = "Are you sure delete this task?";
+import { RippleButton } from "./ripple/RippleButton";
 
 function Navbar() {
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
@@ -43,16 +38,6 @@ function Navbar() {
       setHamburgerMenu(false);
     }
   }, [isTablet]);
-
-  function handleHamburgerMenu() {
-    setHamburgerMenu(!hamburgerMenu);
-    toggleNavbarWidth();
-  }
-
-  function toggleNavbarWidth() {
-    setNavbarWidth(hamburgerMenu ? 10 : 300);
-    setNavbarHeight(hamburgerMenu ? 0 : 1000);
-  }
 
   return (
     <>
@@ -88,15 +73,8 @@ function Navbar() {
           <div className="flex gap-3 items-center">
             <LanguagePicker />
             <Link onClick={() => console.log("TEST")}>
-              {/* <button
-                type="button"
-                className="cursor-pointer button-primary whitespace-nowrap text-white text-[18px] font-semibold p-3 rounded-full px-[2rem]"
-              >
-                เข้าสู่ระบบ
-              </button> */}
               <RippleButton>เข้าสู่ระบบ</RippleButton>
             </Link>
-            {/* <Btn>เข้าสู่ระบบ</Btn> */}
           </div>
         </nav>
       </div>

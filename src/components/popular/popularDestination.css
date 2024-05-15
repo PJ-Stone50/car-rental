@@ -1,0 +1,46 @@
+.popular-destination {
+  width: 100%;
+  height: fit-content;
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  transition: 1s;
+}
+
+.popular-destination h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #424242;
+}
+
+.popular-destination ul {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1;
+  white-space: nowrap;
+}
+
+.popular-destination li {
+  color: #424242;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: opacity 0.1s, color 0.1s;
+}
+
+.popular-destination li:hover {
+  opacity: 1;
+  color: black;
+}
+
+@media (min-width: 1080px) {
+  .popular-destination {
+    padding-left: 6.5rem;
+    padding-right: 6.5rem;
+  }
+}

@@ -1,84 +1,304 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { format } from "date-fns";
 import { useMediaQuery } from "react-responsive";
-import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 
-function Dropdown({ title, children }) {
-  const [isOpenDropdown, setIsOpenDropdown] = useState(false);
-  const containerRef = useRef(null);
-  const contentRef = useRef(null);
-  const [containerHeight, setContainerHeight] = useState(0);
-
-  useEffect(() => {
-    if (isOpenDropdown) {
-      setContainerHeight(contentRef.current.scrollHeight);
-    } else {
-      setContainerHeight(0);
-    }
-  }, [isOpenDropdown]);
-
-  return (
-    <div className="w-full h-fit bg-amber-200 flex flex-col">
-      <div
-        onClick={() => setIsOpenDropdown(!isOpenDropdown)}
-        className="w-full h-fit cursor-pointer items-center bg-[#F7F7F7]  flex justify-start"
-      >
-        {isOpenDropdown ? (
-          <FaChevronDown
-            className="w-[25px] h-[25px] text-[#424242] duration-1000 transition-[1s]"
-            style={{ marginLeft: "1.5rem" }}
-          />
-        ) : (
-          <FaChevronRight
-            className="w-[25px] h-[25px] text-[#424242] duration-1000 transition-[1s]"
-            style={{ marginLeft: "1.5rem" }}
-          />
-        )}
-
-        <h1 className="text-[22px] font-semibold p-[1.5rem] ">{title}</h1>
-      </div>
-      <div
-        ref={containerRef}
-        className="overflow-hidden transition-height"
-        style={{ height: `${containerHeight}px` }}
-      >
-        <div
-          ref={contentRef}
-          className="bg-white border-2  p-3 mb-3 duration-1000 transition-[height]"
-        >
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Question() {
+function DatePicker({ openDate, setOpenDate }) {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+
+  const [date, setDate] = useState({
+    startDate: new Date(),
+    endDate: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000), // Set endDate to 2 days after startDate
+    key: "selection",
+  });
+
+  // Initialize state for selected time
+  const [startTime, setStartTime] = useState(() => {
+    // Get current time
+    const currentTime = new Date();
+    // Round the minutes up to the nearest 30 minutes
+    const roundedMinutes = Math.ceil(currentTime.getMinutes() / 30) * 30;
+    // Set the minutes to the rounded minutes
+    currentTime.setMinutes(roundedMinutes);
+    // Return formatted time
+    return format(currentTime, "HH:mm");
+  });
+
+  const [endTime, setEndTime] = useState("00:00");
+
+  // Function to handle change in select input
+  const handleStartChange = (event) => {
+    const selectedTime = event.target.value;
+    const [selectedHour, selectedMinute] = selectedTime.split(":").map(Number);
+
+    // Calculate the nearest 30-minute interval
+    let newHour = selectedHour;
+    let newMinute = selectedMinute >= 30 ? 30 : 0;
+
+    // If the selected minute is 30, don't increment the hour
+    if (selectedMinute === 30) {
+      newMinute = 30;
+    } else if (selectedMinute > 30) {
+      // If the selected minute is greater than 30, set the minute to 0 and increment hour by 1
+      newMinute = 0;
+      newHour++;
+    }
+
+    // Update the startTime state with the calculated time
+    const newTime = `${newHour.toString().padStart(2, "0")}:${newMinute
+      .toString()
+      .padStart(2, "0")}`;
+    setStartTime(newTime);
+  };
+
+  const generateOptionsStartTime = () => {
+    const options = [];
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+
+    // Get the start date from the state
+    const selectedStartDate = date.startDate;
+
+    // Calculate the current hour and minute
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const timeString = `${hour.toString().padStart(2, "0")}:${minute
+          .toString()
+          .padStart(2, "0")}`;
+
+        // Check if the selected start date is today
+        const isToday = selectedStartDate.getDate() === currentDate.getDate();
+
+        // If it's today, disable past times
+        if (
+          isToday &&
+          (hour < currentHour ||
+            (hour === currentHour && minute <= currentMinute))
+        ) {
+          options.push(
+            <option key={timeString} value={timeString} disabled>
+              {timeString}
+            </option>
+          );
+        } else {
+          // Allow selecting any time for dates other than today
+          options.push(
+            <option key={timeString} value={timeString}>
+              {timeString}
+            </option>
+          );
+        }
+      }
+    }
+    return options;
+  };
+
+  // Function to generate options for end time selection
+  const generateOptionsEndTime = () => {
+    const options = [];
+
+    // Calculate options for each hour and minute
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const timeString = `${hour.toString().padStart(2, "0")}:${minute
+          .toString()
+          .padStart(2, "0")}`;
+
+        // Disable times from 0:00 to 6:00
+        if (hour < 6 || (hour === 6 && minute === 0)) {
+          options.push(
+            <option key={timeString} value={timeString} disabled>
+              {timeString}
+            </option>
+          );
+        } else {
+          // Allow selecting other times
+          options.push(
+            <option key={timeString} value={timeString}>
+              {timeString}
+            </option>
+          );
+        }
+      }
+    }
+
+    return options;
+  };
+
+  // Function to handle change in select input for endTime
+  const handleEndChange = (event) => {
+    const selectedEndTime = event.target.value;
+    setEndTime(selectedEndTime);
+  };
+
+  const handleChange = (ranges) => {
+    setDate(ranges.selection);
+  };
+
+  const dateRangeRef = useRef(null);
+
+  // useEffect hook to handle click events outside the dateRangeRef element
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if dateRangeRef exists and if the clicked element is outside it
+      if (
+        dateRangeRef.current &&
+        !dateRangeRef.current.contains(event.target)
+      ) {
+        // If clicked outside, set openDate state to false
+        setOpenDate(false);
+      }
+    };
+
+    // Add event listener for mouse clicks on the document
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up: remove event listener when component unmounts or dependencies change
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []); // Empty dependency array ensures useEffect only runs on mount
 
   return (
     <div
       className={
-        isMobile
-          ? "w-full h-fit py-[3rem] bg-white px-[5rem] pt-[3rem] flex flex-col gap-5"
-          : "w-full h-fit  px-5  bg-white pb-[3rem] flex flex-col gap-2"
+        isTablet
+          ? "containerDateRange gap-5"
+          : "containerDateRange flex flex-col my-8 gap-3"
       }
     >
-      <h1 className="text-[28px] text-[#424242] font-semibold mb-[1.5rem]">
-        คำถามที่พบบ่อย2
-      </h1>
+      <div className="flex w-full ">
+        <span
+          style={{
+            borderTopLeftRadius: "3px",
+            borderBottomLeftRadius: "3px",
+          }}
+          className={
+            isMobile
+              ? "calendar w-full max-h-[78px]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-bold  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9] z-0   border-[1.5px] border-[#E0E3E7]"
+              : "calendar w-full h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-bold cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] z-0 border-[#E0E3E7]"
+          }
+          onClick={() => setOpenDate(!openDate)}
+        >
+          {date.startDate ? (
+            <p className="mb-[-.5rem] ">
+              {date.startDate && format(date.startDate, "MMM, dd, yyyy")}
+            </p>
+          ) : (
+            <p className="mb-[-.5rem] ">startDate</p>
+          )}
+          <h1
+            htmlFor=""
+            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
+          >
+            วันที่และเวลารับรถ
+          </h1>
+        </span>
+        {/* TimeSelect */}
+        <div>
+          <select
+            id="timeSelectStart"
+            value={startTime}
+            onChange={handleStartChange}
+            className="whitespace-nowrap cursor-pointer  w-fit px-3 h-[78px]  text-center items-center border-l-[1px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            style={{
+              borderTopRightRadius: "5%",
+              borderBottomRightRadius: "5%",
+            }}
+          >
+            {generateOptionsStartTime()}
+          </select>
+        </div>
+      </div>
 
-      <Dropdown
-        title="นโยบายการยกเลิกคืออะไร?"
-        content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Error cumque beatae doloribus eum laborum non molestiae quos iusto architecto in reprehenderit, fugiat temporibus quasi quae rem numquam tempore ullam adipisci sapiente? Maiores fugiat atque rerum voluptates laboriosam velit ratione dolorem saepe quos, labore quidem. Minus pariatur voluptatum fugit nisi ad."
-      >
-        <h1>123</h1>
-      </Dropdown>
-      <Dropdown title="Dropdown 2 Title" content="Dropdown 2 Content" />
-      <Dropdown title="Dropdown 3 Title" content="Dropdown 3 Content" />
-      <Dropdown title="Dropdown 4 Title" content="Dropdown 4 Content" />
+      <div className="flex w-full justify-center">
+        <span
+          style={{
+            borderTopLeftRadius: "3px",
+            borderBottomLeftRadius: "3px",
+          }}
+          className={
+            isMobile
+              ? "calendar w-full max-h-[78px]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-bold  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]    border-[1.5px] border-[#E0E3E7]"
+              : "calendar w-full h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-bold cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+          }
+          onClick={() => setOpenDate(!openDate)}
+        >
+          {date.endDate ? (
+            <p className="mb-[-.5rem] ">
+              {date.endDate && format(date.endDate, "MMM, dd, yyyy")}
+            </p>
+          ) : (
+            <p className="mb-[-.5rem] ">endDate</p>
+          )}
+          <label
+            htmlFor=""
+            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
+          >
+            วันที่และเวลาคืนรถ
+          </label>
+        </span>
+        {/* TimeSelect */}
+        <div className="">
+          {/* <label htmlFor="timeSelect">Select Time:</label> */}
+          <select
+            id="timeSelectEnd"
+            value={endTime}
+            onChange={handleEndChange}
+            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] border-l-[1px] text-center items-center  bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            style={{
+              borderTopRightRadius: "5%",
+              borderBottomRightRadius: "5%",
+            }}
+          >
+            {generateOptionsEndTime()}
+          </select>
+          {/* <p>Selected Time: {selectedTime}</p> */}
+        </div>
+      </div>
+      {openDate && (
+        <div ref={dateRangeRef} style={{ background: "green", zIndex: 2 }}>
+          {isMobile ? (
+            <DateRange
+              className={
+                isTablet
+                  ? "absolute top-[100%] left-[-200px]   scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[-40px]    scale-110 transition-[1s]"
+              }
+              style={{ zIndex: 2 }}
+              onChange={(ranges) => handleChange(ranges)}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              ranges={[date]} // Pass date directly instead of wrapping it in an array
+              direction="horizontal"
+              minDate={new Date()} // Set minDate to the current date to disable past dates
+            />
+          ) : (
+            <DateRange
+              editableDateInputs={true}
+              onChange={(ranges) => handleChange(ranges)}
+              moveRangeOnFirstSelection={false}
+              ranges={[date]}
+              showSelectionPreview={true}
+              months={2}
+              direction="vertical"
+              minDate={new Date()}
+              className={
+                isMobile
+                  ? "centered-component absolute top-[50%] left-[50%] transform translate(-50%, -50%) bg-blue-200 scale-110 transition-[1s]"
+                  : "centered-component absolute top-[50%] left-[-45px] transform translate(-50%, -50%)  scale-[95%] transition-[1s]"
+              }
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-export default Question;
+export default DatePicker;

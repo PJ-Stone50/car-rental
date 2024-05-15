@@ -1,0 +1,23 @@
+.language-picker {
+  position: relative;
+  width: fit-content;
+}
+
+.country-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.country-flag {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+.caret-icon {
+  width: 20px;
+  height: 20px;
+}

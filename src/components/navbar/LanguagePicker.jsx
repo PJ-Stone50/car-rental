@@ -1,9 +1,9 @@
-import { useState } from "react";
-import ThaiFlag from "../../../public/images/backgrounds/thai.png";
-import EngFlag from "../../../public/images/backgrounds/english.jpeg";
-
-import { FaCaretDown } from "react-icons/fa";
+import React, { useState } from "react";
 import { Menu, Dropdown } from "antd";
+import { FaCaretDown } from "react-icons/fa";
+import ThaiFlag from "../../../public/images/backgrounds/thai.png";
+import EngFlag from "../../../public/images/backgrounds/eng.png";
+import "./languagePicker.css"; // Import the CSS file
 
 function LanguagePicker() {
   const [countryFlag, setCountryFlag] = useState(ThaiFlag);
@@ -13,12 +13,10 @@ function LanguagePicker() {
       <Menu.Item key="thai" onClick={() => setCountryFlag(ThaiFlag)}>
         <div className="flex items-center gap-2">
           <div
+            className="country-flag"
             style={{
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
               backgroundImage: `url(${ThaiFlag})`,
-              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           />
           <span>TH</span>
@@ -27,12 +25,10 @@ function LanguagePicker() {
       <Menu.Item key="english" onClick={() => setCountryFlag(EngFlag)}>
         <div className="flex items-center gap-2">
           <div
+            className="country-flag"
             style={{
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
               backgroundImage: `url(${EngFlag})`,
-              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           />
           <span>EN</span>
@@ -42,36 +38,21 @@ function LanguagePicker() {
   );
 
   return (
-    <div className="right-side relative w-fit  ">
-      <div className="flex gap-3">
+    <div className="language-picker">
+      <div className="flex gap-3 items-center">
         <Dropdown overlay={menu} placement="bottomLeft">
           <div
             onClick={() => setIsOpenCountryWidget(!isOpenCountryWidget)}
-            className="countryContainer flex gap-2 items-center  cursor-pointer"
+            className="country-container"
           >
             <span
-              htmlFor="country"
-              className=" shadow-xl bg-red-500"
+              className="country-flag"
               style={{
-                borderRadius: "50%",
-                width: "25px",
-                height: "25px",
-                display: "inline-block",
                 backgroundImage: `url(${countryFlag})`,
-                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
-            >
-              <img
-                src={countryFlag}
-                alt="countryFlag"
-                style={{
-                  borderRadius: "50%",
-                  width: "25px",
-                  height: "25px",
-                }}
-              />
-            </span>
-            <FaCaretDown style={{ width: "20px", height: "20px" }} />
+            />
+            <FaCaretDown className="caret-icon" />
           </div>
         </Dropdown>
       </div>

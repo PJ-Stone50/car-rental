@@ -1,0 +1,67 @@
+/* footer.css */
+
+.footer {
+  width: 100%;
+  /* padding: 1.25rem; */
+  background-color: #424242;
+  color: white;
+  white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  padding: 3rem 6.5rem 0rem 6.5rem;
+}
+
+ul > li {
+  text-align: start;
+  align-items: start;
+  display: flex;
+  justify-content: start;
+}
+
+.contentContainer > h1,
+.contentContainer > p {
+  width: 100%;
+  text-align: start;
+}
+
+@media (max-width: 1080px) {
+  .footer {
+    gap: 4rem;
+    font-size: 16px;
+    flex-direction: column;
+  }
+
+  .contentContainer > h1,
+  .contentContainer > p {
+    display: flex;
+    /* text-align: center; */
+    justify-content: center;
+    /* background: black; */
+  }
+}
+
+.footer h1 {
+  font-size: 20px;
+  font-weight: 500;
+  text-align: start;
+}
+
+.footer p {
+  cursor: pointer;
+  font-weight: 400;
+  text-align: start;
+}
+
+.footer p:hover {
+  opacity: 1;
+}
+
+li > p {
+  font-weight: 400;
+}
+
+ul > li.contentContainer {
+  justify-content: center;
+  align-items: center;
+}

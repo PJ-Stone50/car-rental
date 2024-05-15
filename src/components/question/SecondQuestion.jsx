@@ -1,14 +1,13 @@
 import React from "react";
+import "./question.css";
 
 function SecondQuestion() {
   return (
-    <div className="py-3 flex flex-col gap-1">
-      <p className="font-medium text-[#424242]">
-        เมื่อมารับรถ คุณจำเป็นต้องมี:
-      </p>
+    <div>
+      <p className="article">เมื่อมารับรถ คุณจำเป็นต้องมี:</p>
 
-      <p className="font-medium text-[#424242] pl-[1.5rem]">
-        <label className=" text-black font-semibold">1. ใบอนุญาติขับขี่:</label>
+      <p className="article pl-[1.5rem]">
+        <label className=" ">1. ใบอนุญาติขับขี่:</label>
         ผู้ขับขี่หลักจำเป็นต้องถือใบอนุญาตขับขี่ดังกล่าวมาแล้วอย่างน้อย 1 หรือ 2
         ปี (ขึ้นอยู่กับนโยบายของบริษัทเช่ารถแต่ละแห่ง)
         ผู้ขับขี่เสริมจำเป็นต้องแสดงใบอนุญาตขับขี่ของตนเช่นเดียวกัน
@@ -18,22 +17,18 @@ function SecondQuestion() {
         มาใช้ร่วมกับใบอนุญาตขับขี่ตัวจริงของคุณด้วย สำหรับข้อมูลเพิ่มเติม
         โปรดตรวจสอบข้อกำหนดและเงื่อนไขขณะทำการจอง
       </p>
-      <p className="font-medium text-[#424242] pl-[1.5rem]">
-        <label className=" text-black font-semibold">2. บัตรเครดิต:</label>
+      <p className="article pl-[1.5rem]">
+        <label className=" ">2. บัตรเครดิต:</label>
         บัตรเครดิตจะต้องมีชื่อของผู้ขับขี่หลักอยู่บนบัตรและมีวงเงินเพียงพอสำหรับเป็นค่ามัดจำหรือค่าประกันที่เคาน์เตอร์เช่ารถ
       </p>
-      <p className="font-medium text-[#424242] pl-[1.5rem]">
-        <label className=" text-black font-semibold">
-          3. เอกสารยืนยันตัวตน :
-        </label>
+      <p className="article pl-[1.5rem]">
+        <label className=" ">3. เอกสารยืนยันตัวตน :</label>
         ผู้ขับขี่จะต้องแสดงเอกสารยืนยันตัวตนที่มีรูปถ่าย
         (หนังสือเดินทางหรือบัตรประจำตัวประชาชน) หรือเอกสารยืนยันตัวตนใด ๆ
         ให้แก่บริษัท
       </p>
-      <p className="font-medium text-[#424242] pl-[1.5rem]">
-        <label className=" text-black font-semibold">
-          4. เวาเซอร์ที่พิมพฺ์มา :
-        </label>
+      <p className="article pl-[1.5rem]">
+        <label className=" ">4. เวาเซอร์ที่พิมพฺ์มา :</label>
         ผู้ขับขี่จะต้องแสดงเวาเชอร์ที่พิมพ์มาเมื่อมารับรถ
         จะมีการเรียกเก็บค่าบริการเพิ่มเติม หากไม่สามารถแสดงเอกสารดังกล่าวได้
       </p>
