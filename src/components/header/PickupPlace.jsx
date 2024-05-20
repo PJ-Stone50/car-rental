@@ -30,28 +30,28 @@ const PickupPlace = ({ sameLocation, pickupLocation, setPickupLocation }) => {
         <div
           className={
             isTablet
-              ? "relative w-full  h-fit pl-[1.25rem] py-4 whitespace-nowrap cursor-pointer flex flex-col rounded bg-[#F3F6F9]  px-2 pr-[10rem] border-[1.5px] border-[#E0E3E7]"
-              : "relative w-full  h-fit pl-[1.25rem] whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+              ? "relative w-full  h-fit pl-[0.75rem] py-2 whitespace-nowrap cursor-pointer flex flex-col rounded bg-[#F3F6F9]  px-2 pr-[10rem] border-[1.5px] border-[#E0E3E7]"
+              : "relative w-full  h-fit pl-[0.75rem] whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
           }
         >
           {sameLocation ? (
             <div className="">
-              <h1 className="text-[12px] text-[#424242] ">
-                สถานที่รับและคืนรถ
+              <h1 className=" text-[11px] text-[#424242] ">
+                สถานที่รับและส่งคืนรถ
               </h1>
               <div
                 className={
                   isMobile
-                    ? "absolute top-[25px] right-[30px] text-black opacity-60"
-                    : "absolute top-[25px] right-[30px] text-black opacity-60"
+                    ? "absolute top-[20px] right-[20px] text-black opacity-60"
+                    : "absolute top-[24px] right-[20px] text-black opacity-60"
                 }
                 style={{ zIndex: "2" }}
               >
                 <FaLocationDot
                   className={
                     isMobile
-                      ? "scale-[200%] duration-500"
-                      : "scale-[150%] duration-500"
+                      ? "scale-[140%] duration-500"
+                      : "scale-[140%] duration-500"
                   }
                   width={100}
                   height={100}
@@ -60,18 +60,20 @@ const PickupPlace = ({ sameLocation, pickupLocation, setPickupLocation }) => {
             </div>
           ) : (
             <div className="">
-              <h1 className="opacity-80 text-[#424242] text-[12px]">
-                สถานที่รับรถ
-              </h1>
+              <h1 className=" text-[#424242] text-[11px]">สถานที่รับรถ</h1>
               <div
-                className="absolute top-[25px] right-[30px] text-black opacity-60"
+                className={
+                  isTablet
+                    ? "absolute top-[20px] right-[20px] text-black opacity-60"
+                    : "absolute top-[24px] right-[20px] text-black opacity-60"
+                }
                 style={{ zIndex: "2" }}
               >
                 <FaLocationDot
                   className={
                     isMobile
-                      ? "scale-[200%] duration-500"
-                      : "scale-[150%] duration-500"
+                      ? "scale-[140%] duration-500"
+                      : "scale-[140%] duration-500"
                   }
                   width={100}
                   height={100}
@@ -84,8 +86,8 @@ const PickupPlace = ({ sameLocation, pickupLocation, setPickupLocation }) => {
               {pickupLocation}
             </h1>
           ) : (
-            <h1 className="text-[16px] font-normal text-black">
-              {sameLocation ? "สถานที่รับและคืนรถ" : "สถานที่รับรถ"}
+            <h1 className="text-[15px] font-normal text-black">
+              {sameLocation ? "สถานที่รับและส่งคืนรถ" : "สถานที่รับรถ"}
             </h1>
           )}
         </div>

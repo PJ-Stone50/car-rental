@@ -54,7 +54,7 @@ function Navbar() {
           className={`navBar  items-center py-3  flex gap-[1rem] transition-[0.5s] ${
             isTablet
               ? "pl-[3rem] bg-white justify-between pr-[3rem]"
-              : "flex flex-col pb-[2rem] bg-white"
+              : "flex flex-col pb-[1rem] bg-white"
           } `}
           style={{
             width: hamburgerMenu ? navbarWidth : "100%",

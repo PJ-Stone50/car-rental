@@ -14,23 +14,27 @@ const ReturnPlace = ({ sameLocation, pickupLocation }) => {
         <div
           className={
             isTablet
-              ? "relative w-full pl-[1.25rem] h-fit z-0 whitespace-nowrap cursor-pointer flex flex-col rounded bg-[#F3F6F9] py-4 px-2 pr-[10rem] border-[1.5px] border-[#E0E3E7]"
-              : "relative w-full pl-[1.25rem] h-fit z-0 whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
+              ? "relative w-full pl-[0.75rem] py-2 h-fit z-0 whitespace-nowrap cursor-pointer flex flex-col rounded bg-[#F3F6F9]  px-2 pr-[10rem] border-[1.5px] border-[#E0E3E7]"
+              : "relative w-full pl-[0.75rem] h-fit z-0 whitespace-nowrap cursor-pointer  flex flex-col rounded bg-[#F3F6F9] p-3 border-[1.5px] border-[#E0E3E7]"
           }
         >
-          <h1 className="opacity-80 font-normal text-[12px] text-[#424242]">
+          <h1 className="font-normal text-[11px] text-[#424242]">
             สถานที่คืนรถ
           </h1>
-          <h1 className="text-[16px] font-normal text-black">สถานที่คืนรถ</h1>
+          <h1 className="text-[15px] font-normal text-black">สถานที่คืนรถ</h1>
           <div
-            className="absolute top-[25px] right-[30px] text-black opacity-60"
+            className={
+              isTablet
+                ? "absolute top-[20px] right-[20px] text-black opacity-60"
+                : "absolute top-[24px] right-[20px] text-black opacity-60"
+            }
             style={{ zIndex: "2" }}
           >
             <FaLocationDot
               className={
                 isMobile
-                  ? "scale-[200%] duration-500"
-                  : "scale-[150%] duration-500"
+                  ? "scale-[140%] duration-500"
+                  : "scale-[140%] duration-500"
               }
             />
           </div>

@@ -19,7 +19,7 @@ export default function Home() {
         className={
           isTablet
             ? "flex flex-col px-[15%] duration-500"
-            : "flex flex-col px-[1.5rem] duration-500"
+            : "flex flex-col px-[5%] duration-500"
         }
       >
         <Supplier />

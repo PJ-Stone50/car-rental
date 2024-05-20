@@ -54,7 +54,14 @@
 @media (max-width: 1080px) {
   .contentContainer {
     /* background: red; */
+    width: 60% !important;
     margin: 0 !important;
     transition: 1s ease-in-out;
+  }
+}
+@media (max-width: 768px) {
+  .contentContainer {
+    transition: 1s ease-in-out;
+    width: 80% !important;
   }
 }

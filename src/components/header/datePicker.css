@@ -67,3 +67,12 @@
     transition: 1s;
   }
 }
+
+.container-date {
+  height: 100px;
+}
+
+/* Hide month selector in DateRange */
+.rdrMonthAndYearPickers {
+  visibility: hidden;
+}

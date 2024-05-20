@@ -44,7 +44,7 @@ function Header() {
   };
 
   return (
-    <div className="relative w-full h-fit flex justify-center">
+    <div className="relative w-full h-fit  flex justify-center">
       <div
         style={{
           backgroundImage: `url(${HomeBackground})`,
@@ -55,16 +55,14 @@ function Header() {
         }}
         className={
           isMobile
-            ? "w-full h-[500px] bg-white px-5 flex justify-center items-center"
-            : "w-full h-[700px] px-5 flex justify-center items-center"
+            ? "w-full h-[500px] duration-1000 bg-white px-5 flex justify-center items-center"
+            : "w-full h-[650px] duration-1000 px-5 flex justify-center items-center"
         }
       >
-        <div
-          className={
-            isTablet
-              ? "contentContainer w-fit h-fit mx-[5rem] flex gap-3 bg-white rounded px-5 pb-[5rem] absolute top-[20%] p-4 shadow-lg z-10"
-              : "contentContainer w-full h-fit mx-[10rem] flex flex-col bg-white rounded gap-3 px-5 p-4 shadow-lg z-10"
-          }
+        <diva
+          className={`contentContainer mb-[10rem] bg-white w-fit h-fit mx-[5rem]  flex gap-3  rounded px-5  absolute top-[20%] py-3 shadow-lg z-10
+    ${isTablet ? " pb-[3rem]" : " w-3/4 md:w-[50%] h-fit flex-col"}
+    ${sameLocation && ""}`}
         >
           <div
             className={
@@ -94,8 +92,8 @@ function Header() {
           <div
             className={
               isMobile
-                ? "w-full flex gap-3 items-center pb-[2rem] md:pb-0 xl:pb-0"
-                : "flex flex-col gap-3 "
+                ? "w-full flex gap-3 mb-[1rem] items-center pb-[2rem] md:pb-0 xl:pb-0"
+                : "flex flex-col gap-3 mb-[1rem]"
             }
           >
             <PickupPlace
@@ -113,14 +111,14 @@ function Header() {
           <div
             className={
               isTablet
-                ? "container-date items-center w-full h-full z-10"
-                : "container-date items-center w-full h-full"
+                ? "container-date items-center w-full h-fit z-10"
+                : "container-date items-start w-full h-fit"
             }
           >
             <DatePicker
               openDate={openDate}
               setOpenDate={setOpenDate}
-              className="p-5"
+              className="p-"
             />
           </div>
           <div
@@ -137,7 +135,7 @@ function Header() {
                   : "w-full flex items-center justify-start pt-[.75rem] gap-1 whitespace-nowrap text-[#424242]"
               }
             >
-              <p className="" style={{}}>
+              <p className="text-[15px]" style={{}}>
                 อายุของผู้ขับขี่
               </p>
               <CustomTooltip
@@ -152,7 +150,7 @@ function Header() {
                 />
                 {/* <h1>Info</h1> */}
               </CustomTooltip>
-              <p>อยู่ระหว่าง</p>
+              <p className="text-[15px]">อยู่ระหว่าง</p>
               <AgeSelect />
             </div>
 
@@ -164,7 +162,7 @@ function Header() {
               Search
             </RippleButton>
           </div>
-        </div>
+        </diva>
       </div>
     </div>
   );

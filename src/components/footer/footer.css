@@ -9,7 +9,9 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
-  padding: 3rem 6.5rem 0rem 6.5rem;
+  /* padding: 3rem 6.5rem 0rem 6.5rem; */
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 ul > li {

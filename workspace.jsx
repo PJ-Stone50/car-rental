@@ -4,10 +4,14 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 import { useMediaQuery } from "react-responsive";
+import { BsCalendar2Date } from "react-icons/bs";
+import "./datePicker.css";
+import { CalendarOutlined } from "@ant-design/icons";
 
 function DatePicker({ openDate, setOpenDate }) {
   const isTablet = useMediaQuery({ query: "(min-width: 1240px)" });
   const isMobile = useMediaQuery({ query: "(min-width: 768px)" });
+  const isMobile2 = useMediaQuery({ query: "(min-width: 460px)" });
 
   const [date, setDate] = useState({
     startDate: new Date(),
@@ -27,7 +31,7 @@ function DatePicker({ openDate, setOpenDate }) {
     return format(currentTime, "HH:mm");
   });
 
-  const [endTime, setEndTime] = useState("00:00");
+  const [endTime, setEndTime] = useState("18:00");
 
   // Function to handle change in select input
   const handleStartChange = (event) => {
@@ -73,11 +77,13 @@ function DatePicker({ openDate, setOpenDate }) {
         // Check if the selected start date is today
         const isToday = selectedStartDate.getDate() === currentDate.getDate();
 
-        // If it's today, disable past times
+        // Disable times from 0:00 to 05:30
         if (
-          isToday &&
-          (hour < currentHour ||
-            (hour === currentHour && minute <= currentMinute))
+          hour < 5 ||
+          (hour === 5 && minute <= 30) ||
+          (isToday &&
+            (hour < currentHour ||
+              (hour === currentHour && minute <= currentMinute)))
         ) {
           options.push(
             <option key={timeString} value={timeString} disabled>
@@ -85,7 +91,7 @@ function DatePicker({ openDate, setOpenDate }) {
             </option>
           );
         } else {
-          // Allow selecting any time for dates other than today
+          // Allow selecting other times
           options.push(
             <option key={timeString} value={timeString}>
               {timeString}
@@ -167,55 +173,95 @@ function DatePicker({ openDate, setOpenDate }) {
     <div
       className={
         isTablet
-          ? "containerDateRange gap-5"
-          : "containerDateRange flex flex-col my-8 gap-3"
+          ? "containerDateRange gap-5  mb-[1rem]"
+          : "containerDateRange flex flex-col  "
       }
+      style={{ zIndex: 2 }}
     >
-      <div className="flex w-full ">
-        <span
-          style={{
-            borderTopLeftRadius: "3px",
-            borderBottomLeftRadius: "3px",
-          }}
-          className={
-            isMobile
-              ? "calendar w-full max-h-[78px]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-bold  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9] z-0   border-[1.5px] border-[#E0E3E7]"
-              : "calendar w-full h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-bold cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] z-0 border-[#E0E3E7]"
-          }
-          onClick={() => setOpenDate(!openDate)}
-        >
-          {date.startDate ? (
-            <p className="mb-[-.5rem] ">
-              {date.startDate && format(date.startDate, "MMM, dd, yyyy")}
-            </p>
-          ) : (
-            <p className="mb-[-.5rem] ">startDate</p>
-          )}
-          <h1
+      <div
+        className={
+          isTablet
+            ? "relative flex w-full items-center"
+            : "relative flex w-full items-center  pb-[1rem]"
+        }
+      >
+        <div className="startDateContainer flex w-full h-full">
+          <label
             htmlFor=""
-            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
+            className="absolute top-[18px] right-[110px]"
+            style={{ zIndex: "2" }}
           >
-            วันที่และเวลารับรถ
-          </h1>
-        </span>
-        {/* TimeSelect */}
-        <div>
-          <select
-            id="timeSelectStart"
-            value={startTime}
-            onChange={handleStartChange}
-            className="whitespace-nowrap cursor-pointer  w-fit px-3 h-[78px]  text-center items-center border-l-[1px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            <CalendarOutlined
+              onClick={() => setOpenDate(!openDate)}
+              className={
+                isMobile2
+                  ? "scale-[140%] opacity-60 duration-500"
+                  : "scale-[140%] opacity-60 duration-500"
+              }
+            />
+            {/* <h1>TEST</h1> */}
+          </label>
+          <span
+            id="openStartDate"
+            name="openStartDate"
             style={{
-              borderTopRightRadius: "5%",
-              borderBottomRightRadius: "5%",
+              borderTopLeftRadius: "3px",
+              borderBottomLeftRadius: "3px",
             }}
+            className={
+              isMobile
+                ? "calendar w-full  h-fit pt-[1.5rem]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-normal  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9] z-0   border-[1.5px] border-[#E0E3E7]"
+                : "calendar w-full  h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-normal cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] z-0 border-[#E0E3E7]"
+            }
+            Click={() => setOpenDate(!openDate)}
           >
-            {generateOptionsStartTime()}
-          </select>
+            {date.startDate ? (
+              <p className="mb-[-0.75rem] ml-[-0.5rem] text-[16px]">
+                {date.startDate && format(date.startDate, "MMM, dd, yyyy")}
+              </p>
+            ) : (
+              <p className="mb-[-.5rem] ">startDate</p>
+            )}
+            <h1
+              htmlFor=""
+              className="absolute top-[7.5px] font-normal text-[11px] left-3   text-[#424242]"
+            >
+              วันที่และเวลารับรถ
+            </h1>
+          </span>
+          {/* TimeSelect */}
+          <div>
+            <select
+              id="timeSelectStart"
+              value={startTime}
+              onChange={handleStartChange}
+              className="whitespace-nowrap cursor-pointer  w-fit px-3 h-full  text-center items-center border-l-[1px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+              style={{
+                borderTopRightRadius: "5%",
+                borderBottomRightRadius: "5%",
+              }}
+            >
+              {generateOptionsStartTime()}
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="flex w-full justify-center">
+      <div className="relative flex w-full items-center">
+        <label
+          htmlFor=""
+          className="absolute top-[18px] right-[110px]"
+          style={{ zIndex: "2" }}
+        >
+          <CalendarOutlined
+            onClick={() => setOpenDate(!openDate)}
+            className={
+              isMobile2
+                ? "scale-[140%] opacity-60 duration-500"
+                : "scale-[140%] opacity-60 duration-500"
+            }
+          />
+        </label>
         <span
           style={{
             borderTopLeftRadius: "3px",
@@ -223,21 +269,21 @@ function DatePicker({ openDate, setOpenDate }) {
           }}
           className={
             isMobile
-              ? "calendar w-full max-h-[78px]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-bold  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]    border-[1.5px] border-[#E0E3E7]"
-              : "calendar w-full h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-bold cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+              ? "calendar w-full  h-fit pt-[1.5rem]  justify-end text-start pr-[8rem]  relative whitespace-nowrap border-r-[0px] font-normal  cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9] z-0   border-[1.5px] border-[#E0E3E7]"
+              : "calendar w-full  h-full  justify-end text-start relative whitespace-nowrap border-r-[0px] font-normal cursor-pointer  flex flex-col  border-r-none bg-[#F3F6F9]  border-[1.5px] z-0 border-[#E0E3E7]"
           }
           onClick={() => setOpenDate(!openDate)}
         >
           {date.endDate ? (
-            <p className="mb-[-.5rem] ">
+            <p className="mb-[-0.75rem] ml-[-0.5rem] text-[16px]">
               {date.endDate && format(date.endDate, "MMM, dd, yyyy")}
             </p>
           ) : (
             <p className="mb-[-.5rem] ">endDate</p>
           )}
           <label
-            htmlFor=""
-            className="absolute top-3 font-normal left-5 opacity-80  text-[#424242]"
+            htmlFor="openStartDate"
+            className="absolute  top-[7.5px] font-normal text-[11px] left-3   text-[#424242]"
           >
             วันที่และเวลาคืนรถ
           </label>
@@ -249,7 +295,7 @@ function DatePicker({ openDate, setOpenDate }) {
             id="timeSelectEnd"
             value={endTime}
             onChange={handleEndChange}
-            className=" whitespace-nowrap cursor-pointer w-fit px-3 h-[78px] border-l-[1px] text-center items-center  bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
+            className="whitespace-nowrap cursor-pointer  w-fit px-3 h-[58px]  text-center items-center border-l-[1px] bg-[#F3F6F9]  border-[1.5px] border-[#E0E3E7]"
             style={{
               borderTopRightRadius: "5%",
               borderBottomRightRadius: "5%",
@@ -266,8 +312,8 @@ function DatePicker({ openDate, setOpenDate }) {
             <DateRange
               className={
                 isTablet
-                  ? "absolute top-[100%] left-[-200px]   scale-110 transition-[1s]"
-                  : "absolute top-[100%] left-[-40px]    scale-110 transition-[1s]"
+                  ? "absolute top-[115%] left-[35px] z-[]  scale-110 transition-[1s]"
+                  : "absolute top-[100%] left-[-120px]  z-[]  scale-110 transition-[1s]"
               }
               style={{ zIndex: 2 }}
               onChange={(ranges) => handleChange(ranges)}
@@ -288,11 +334,7 @@ function DatePicker({ openDate, setOpenDate }) {
               months={2}
               direction="vertical"
               minDate={new Date()}
-              className={
-                isMobile
-                  ? "centered-component absolute top-[50%] left-[50%] transform translate(-50%, -50%) bg-blue-200 scale-110 transition-[1s]"
-                  : "centered-component absolute top-[50%] left-[-45px] transform translate(-50%, -50%)  scale-[95%] transition-[1s]"
-              }
+              className="centered-component "
             />
           )}
         </div>
